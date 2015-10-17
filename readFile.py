@@ -63,6 +63,19 @@ class readFile(object):
         
         graph.append(node);
         
+        #The inverted route also is available
+        node = Node();
+        node.departure = line[1];
+        node.arrival = line[0];
+        node.type = line[2];
+        node.cost = line[3];
+        node.duration = line[4];
+        node.initTime = line[5];
+        node.finTime = line[6];
+        node.duration = line[7]; 
+               
+        graph.append(node);
+        
         return graph
 
         

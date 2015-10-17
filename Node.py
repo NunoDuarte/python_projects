@@ -12,23 +12,6 @@ class Node(object):
         self.intervals = 0;
         
         self.visited = False;
-        self.parent = None;
+        self.parent = [];
         self.child = [];
         
-        
-    def MakeGraph(self, startingNode, graph, tree):
-        
-        count = 0;
-        for i in range(0, len(graph)):
-            #print (graph[i].arrival)
-            #print (startingNode)
-            if graph[i].departure == startingNode:
-                if count == 0:
-                    node = Node();
-                    count = count + 1;
-                node.child.append(graph[i])
-
-        tree = node;
-            
-        #print (tree[0].child[0].arrival)
-        return tree

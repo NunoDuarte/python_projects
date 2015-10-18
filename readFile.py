@@ -55,11 +55,11 @@ class readFile(object):
         node.departure = line[0];
         node.arrival = line[1];
         node.type = line[2];
-        node.cost = line[3];
-        node.duration = line[4];
-        node.initTime = line[5];
-        node.finTime = line[6];
-        node.duration = line[7];
+        node.cost = int(line[4]);
+        node.duration = int(line[3]);
+        node.initTime = int(line[5]);
+        node.finTime = int(line[6]);
+        node.intervals = int(line[7]); 
         
         graph.append(node);
         
@@ -68,11 +68,11 @@ class readFile(object):
         node.departure = line[1];
         node.arrival = line[0];
         node.type = line[2];
-        node.cost = line[3];
-        node.duration = line[4];
-        node.initTime = line[5];
-        node.finTime = line[6];
-        node.duration = line[7]; 
+        node.cost = int(line[4]);
+        node.duration = int(line[3]);
+        node.initTime = int(line[5]);
+        node.finTime = int(line[6]);
+        node.intervals = int(line[7]); 
                
         graph.append(node);
         

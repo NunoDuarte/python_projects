@@ -12,6 +12,9 @@ class Node(object):
         self.intervals = 0;
         
         self.visited = False;
+
         self.parent = [];
         self.child = [];
-        
+
+        self.pathCost = 0;
+        self.timeSpent = 0;        

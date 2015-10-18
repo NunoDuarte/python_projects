@@ -1,14 +1,18 @@
+from Time import Time
+
 class BFS(object):
     
     def __init__(self):
         self.visitedNodes = [];
+        self.Time = Time();
 
     
-    def bfs_initState(self, graph, initState):
+    def bfs_initState(self, graph, initState, initTime):
         startingNode = []
         for i in range(0, len(graph)):
             if graph[i].departure == initState:
                 startingNode.append(graph[i]);
+                startingNode[-1] = self.Time.checkTime(startingNode[-1], initTime)
                 
         return startingNode;
         
@@ -19,28 +23,31 @@ class BFS(object):
             for i in range(0, len(stack)):
                 
                 #This happens when there is no solution
-                if i >= len(stack):
-                    return False;
+#                 if i >= len(stack):
+#                     return False;
 #                 print (i)
 #                 print (len(stack))
-                node = stack.pop(i)
+                node = stack.pop(0)
                 if node in self.visitedNodes:
                     continue
                 
                 self.visitedNodes.append(node)
                 if node.arrival == soughtValue:
-                    print (node.arrival)
-                    print (node.departure)
+                    time = node.timeSpent;
+                    cost = node.cost;
+                    output = node.departure + ' ' + node.type + ' ' + node.arrival
                     while node.departure != self.visitedNodes[0].departure:
                         node = node.parent;
-                        print (node.arrival)
-                        print (node.departure)
-                    return True
+                        cost = cost + node.cost
+                        output = node.departure + ' ' + node.type + ' ' + output
+                    output = output + ' ' + str(time) + ' ' + str(cost) 
+                    return output
                 
                 for n in node.child:
                     if n not in self.visitedNodes:
                         n.parent = self.visitedNodes[-1];
                         stack.append(n)
+                        stack[-1] = self.Time.checkTime(stack[-1], n.parent.initTime)
                         #We don't want to go back or do the same cities again
                         if BFS.checkRepeated(self, n):
                             stack.pop()

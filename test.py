@@ -3,6 +3,8 @@ from DFS import DFS
 from BFS import BFS
 from Graph import Graph
 
+import copy 
+
 clients = readFile('input2.cli');
 cli = clients.openFile();
 
@@ -20,8 +22,8 @@ for i in range(0, mapa.numConnects):
 for i in range(0, 2*mapa.numConnects):
 	graph.graph = graph.MakeGraph(i, graph.graph[i].arrival, graph.graph)
 	
-
-	
+output = clients.file.replace('.cli', '.sol')
+output = open(output, 'w')
 
 #Read each client separately 
 for i in range (0,  cli.numClients):
@@ -29,16 +31,24 @@ for i in range (0,  cli.numClients):
 	line.append(i)
 	line[i] = clients.readLine()
 	
-	#tree = node.MakeGraph(line[i][1], graph.graph, tree)
+	#reset the graph
+	loop_graph = copy.deepcopy(graph.graph);
+	
+	# Depth First Search Algorithm
 # 	dfs = DFS();
-# 	startingNode = dfs.dfs_initState(graph.graph, line[i][1])
+# 	startingNode = dfs.dfs_initState(loop_graph, line[i][1], int(line[i][3]))
 # 	solution = dfs.dfs_search(startingNode, line[i][2])
+
+	# Breadth First Search Algorithm
 	bfs = BFS();
-	startingNode = bfs.bfs_initState(graph.graph, line[i][1])
+	startingNode = bfs.bfs_initState(loop_graph, line[i][1], int(line[i][3]))
 	solution = bfs.bfs_search(startingNode, line[i][2])
-	print (solution)
-	#print (solution)
-	#search = dfs(line[2])
+	
+	# Write to the .sol text file
+	if not solution:
+		solution = str(-1);
+	solution = str(i+1) + ' ' + solution
+	output.write(solution + '\n')
 	
 
 	

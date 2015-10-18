@@ -5,6 +5,8 @@ class DFS(object):
     def __init__(self):
         self.visitedNodes = [];
         self.Time = Time()
+        self.limitTime = 100000;
+        self.limitCost = 100000;
 
     
     def dfs_initState(self, graph, initState, initTime):
@@ -12,7 +14,7 @@ class DFS(object):
         for i in range(0, len(graph)):
             if graph[i].departure == initState:
                 startingNode.append(graph[i]);
-                startingNode[-1] = self.Time.checkTime(startingNode[-1], initTime)                
+                startingNode[-1] = self.Time.checkTime(startingNode[-1], initTime, self)                
                 
         return startingNode;
         
@@ -45,7 +47,10 @@ class DFS(object):
                 if n not in self.visitedNodes:
                     n.parent = self.visitedNodes[-1];
                     stack.append(n)
-                    stack[-1] = self.Time.checkTime(stack[-1], n.parent.initTime)                    
+                    stack[-1] = self.Time.checkTime(stack[-1], n.parent.initTime, self)    
+                    if stack[-1].visited:
+                        stack.pop();
+                        continue;                
                     if DFS.checkRepeated(self, n):
                         stack.pop()
                     

@@ -34,7 +34,8 @@ number = the number of constraints (0, 1 or 2)
 
 A typeA:
 - a pair of two elements, where the rst can be A1, A2 or A3, and the second can be aviao, comboio, autocarro or barco if the first is A1 or an integer number if the rst is either A2 or A3;
-B typeB
+
+B typeB:
 - a pair of two more elements composed by one of the words B1 or B2, followed by an integer number.
 
 

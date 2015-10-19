@@ -38,5 +38,17 @@ A typeA:
 B typeB:
 - a pair of two more elements composed by one of the words B1 or B2, followed by an integer number.
 
+Run Program:
+
+python istravel.py input.map input.cli
+
+Output File:
+
+- the client number, the determined route, the total time and the total cost. The total time is the difference between the arrival time instant to the final city and the time instant after which the client is available to travel (see definition in the .cli file). The total cost is just the sum of the costs of all connections used in the route.
+- the route specication mentioned above should follow the following rules: starts with the number of the initial city, and ends with the number of the nal city. In between, you must insert for each connection of the route two elements: the type of transport (aviao, comboio, barco or autocarro) and the number of the next city, all separated by a blank space.
+- if there is no possible route for a particular client, the corresponding row should have only the client 
+number and -􀀀1.
+
+
 
 

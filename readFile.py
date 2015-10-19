@@ -1,5 +1,4 @@
 from Node import Node
-
 class readFile(object):
     
     
@@ -7,28 +6,30 @@ class readFile(object):
         
         self.file = file;
         self.f = 0;
+        self.numCities = 0
+        self.numConnects = 0
         
     def openFile(self,):
         
-        f = open(self.file, 'r')
-        self.f = f;
+        f_open = open(self.file, 'r')
+        self.f = f_open
         #Read first line of file
-        first_line = f.readline()
+        first_line = f_open.readline()
         #Remove \n (the enter symbol)
         first_line = first_line.rstrip()
         if '.cli' in self.file:
             #convert to integer
-            f.numClients = int(first_line);
+            self.numClients = int(first_line);
         if '.map' in self.file:
             #Split the strings
             first_line = first_line.split(' ')
             #convert to integer
             first_line = [int(p) for p in first_line];
-            f.numCities = first_line[0];
-            f.numConnects = first_line[1];
+            self.numCities = first_line[0];
+            self.numConnects = first_line[1];
             
         
-        return f
+        return self.f
     
     def readLine(self,):
         

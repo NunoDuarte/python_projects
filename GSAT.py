@@ -22,24 +22,26 @@ class GSAT(object):
         
         for i in range(0, self.max_restarts):
             # A randomly generated truth assignment
-            A = GSAT.random_gen_assign(self, assign, List)         
+            A = GSAT.random_gen_assign(self, assign, List)
             for j in range(0, self.max_climbs):
                 n = GSAT.check_clauses(self, A)
                 if n == self.clauses:
                     return A;
                 if n != self.clauses:
-                    best = GSAT.best_sucessor_of_assign(self, assign, n)
-                    A = GSAT.random_best(self, best);
+                    [best, count] = GSAT.best_sucessor_of_assign(self, assign, n)
+                    A = GSAT.random_best(self, best, count);
                 
                 
                 
             
-    def random_best(self, best):     
-       
-        randomValue = random.randint(0, len(best)-1)
-        assign = best[randomValue];
+    def random_best(self, best, number):     
         
-        return assign;    
+        if number < 1:
+            return best
+        else:
+            randomValue = random.randint(0, len(best)-1)
+            assign = best[randomValue];
+            return assign;    
             
                
 
@@ -78,26 +80,29 @@ class GSAT(object):
         old_assign = assign.copy();
         new_assign = [];
         
+        count = 0;
         for i in assign:
             assign =  old_assign.copy();
             if assign[i] == False:
                 assign[i] = True;
                 n = GSAT.check_clauses(self, assign);
-                if n >= n_max:
+                if n > n_max:
                     new_assign.append(assign);
+                    count = count + 1;
                 continue;
                 
             if assign[i] == True:
                 assign[i] = False;
                 n = GSAT.check_clauses(self, assign);
-                if n >= n_max:
+                if n > n_max:
                     new_assign.append(assign);
+                    count = count + 1;
                 continue;
             
         if not new_assign:
-            return old_assign
+            return (old_assign, count)
         else:
-            return new_assign
+            return (new_assign, count)
             
             
         

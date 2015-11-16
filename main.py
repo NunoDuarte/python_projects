@@ -2,23 +2,24 @@ from readFile import readFile
 from GSAT import GSAT
 from WalkSAT import WalkSAT
 
-file = readFile('input.cnf')
+file = readFile('uf20-01.cnf')
 file = file.openFile()
 
 KB = file.readClauses(file)
 print (KB)
 
-
-
-max_restarts = 3;
+## uf20-files take on average 30 s using GSAT
+max_restarts = 1000000;
 max_climbs = 5;
-max_flips = 3;
+
+## uf20-files is almost instantly for the WalkSAT
+max_flips = 3000;
 probability = 5;
 
-GSAT = GSAT(KB, file, max_restarts, max_climbs);
-solution = GSAT.search();
-
-print (solution)
+# GSAT = GSAT(KB, file, max_restarts, max_climbs);
+# solution = GSAT.search();
+# 
+# print (solution)
 
 WalkSAT = WalkSAT(KB, file, probability, max_flips);
 solution = WalkSAT.search();

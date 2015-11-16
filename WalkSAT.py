@@ -25,6 +25,9 @@ class WalkSAT(object):
                 return assign
             false_clauses = WalkSAT.false_clauses(self, assign);
             false_clause = WalkSAT.select_one(self, false_clauses);
+            
+            #choose from the two options randomly:   1. choose a random variable from the false_clause and change it in the assignment
+            #                                        2. choose the variable which a value satisfies the most clauses in the KB
             if_statement = random.choice([0]*self.p*10 + [1]*(1-self.p)*10);
             if if_statement == 0:
                 symbol = WalkSAT.random_value(self, false_clause)            
@@ -59,6 +62,7 @@ class WalkSAT(object):
         return symbol
             
     def select_one(self, false_clauses):
+        # select one of the false_clauses
         
         size = len(false_clauses);
         number = random.randint(0, size-1);
@@ -68,6 +72,7 @@ class WalkSAT(object):
     
     
     def false_clauses(self, assign):
+        # find all of the clauses that are not satisfied by the assignment
         
         KB = self.KB;
         
@@ -120,6 +125,7 @@ class WalkSAT(object):
     def most_satisfied(self, assign, n_max, false_clause):
         
         old_assign = assign.copy();
+        new_assign = [];
         
         for j in false_clause:
             assign =  old_assign.copy();

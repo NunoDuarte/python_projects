@@ -1,6 +1,7 @@
 from readFile import readFile
 from GSAT import GSAT
 from WalkSAT import WalkSAT
+from DPLL import DPLL
 
 file = readFile('uf20-01.cnf')
 file = file.openFile()
@@ -12,7 +13,7 @@ print (KB)
 max_restarts = 1000000;
 max_climbs = 5;
 
-## uf20-files is almost instantly for the WalkSAT
+## uf20-files are almost instantly for the WalkSAT
 max_flips = 3000;
 probability = 5;
 
@@ -21,10 +22,15 @@ probability = 5;
 # 
 # print (solution)
 
-WalkSAT = WalkSAT(KB, file, probability, max_flips);
-solution = WalkSAT.search();
-#print (random.choice([0]*20 + [1]*80))
+# WalkSAT = WalkSAT(KB, file, probability, max_flips);
+# solution = WalkSAT.search();
+# #print (random.choice([0]*20 + [1]*80))
+# print (solution)
+
+DPLL = DPLL(KB, file);
+solution = DPLL.satisfiable();
 print (solution)
+
 
 
 # print (random.randint(0,1))

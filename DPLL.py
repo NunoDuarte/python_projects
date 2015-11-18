@@ -22,7 +22,18 @@ class DPLL(object):
         if n == self.clauses:
             return True
         else:
-            0
+            [P, value] = DPLL.find_pure_symbol(self, symbols, clauses, model)
+            if P is not None:
+                number = DPLL.pop_symbol(self, symbols, P)
+                symbols.pop(number)
+                model[P] = value;
+                DPLL.search(self, clauses, symbols, model)
+                
+    def pop_symbol(self, symbols, literal):
+        
+        for i in range(0, len(symbols)):
+            if symbols[i] == literal:
+                return i
         
     def check_clauses(self, clauses, model):
         
@@ -33,8 +44,8 @@ class DPLL(object):
             clauses_true = 0;
             for j in model:
                 for i in range(0, len(clauses)):
+                    count = 0;                    
                     for k in clauses[i]:
-                        count = 0;
                         
                         if j == k:
                             if clauses[i][k] == model[j]:
@@ -46,19 +57,31 @@ class DPLL(object):
                         
     def find_pure_symbol(self, symbols, clauses, model):
         
-        value = list(string.ascii_uppercase[0:self.variables]);
-        for i in value:
-            value[i] = 0;
+        List = list(string.ascii_uppercase[0:self.variables]);
+        value = {}
+        
+        for i in range(0, len(List)):
+            value[List[i]] = 2
             
         
         for i in range(0, len(clauses)):
             for j in clauses[i]:
                 if DPLL.in_symbols(self, j, symbols):
-                    if value[j] == 0:
+                    if value[j] == 2:
                         value[j] = clauses[i][j];
-                    if value[j] == clauses[i][j]:
-                        
+                    if value[j] != clauses[i][j]:
+                        value[j] = -1;
+                    if value[j] == -1:
+                        #it means that you found the literal and its complementary. So it is NOT a pure symbol
+                        value[j] = -1;
+        
+        for i in value:
+            if value[i] != -1:
+                if value[i] != 2:
+                    if i not in model:
+                        return (i, value[i])
                 
+        return (None, None)
             
             
     def in_symbols(self, variable, symbols):

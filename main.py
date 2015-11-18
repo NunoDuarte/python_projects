@@ -3,7 +3,7 @@ from GSAT import GSAT
 from WalkSAT import WalkSAT
 from DPLL import DPLL
 
-file = readFile('input.cnf')
+file = readFile('input_1.cnf')
 file = file.openFile()
 
 KB = file.readClauses(file)

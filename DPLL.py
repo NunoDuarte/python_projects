@@ -17,6 +17,8 @@ class DPLL(object):
     
     def search(self, clauses, symbols, model):
         n = DPLL.check_clauses(self, clauses, model);
+        print (n)
+        print (model)
         if n == 0:
             return False
         if n == self.clauses:
@@ -28,6 +30,48 @@ class DPLL(object):
                 symbols.pop(number)
                 model[P] = value;
                 DPLL.search(self, clauses, symbols, model)
+            [P, value] = DPLL.find_unit_clause(self, symbols, clauses, model)
+            if P is not None:
+                number = DPLL.pop_symbol(self, symbols, P)
+                symbols.pop(number)
+                model[P] = value
+                DPLL.search(self, clauses, symbols, model)
+            print (symbols)
+            P = symbols[1]
+            rest = symbols[2:];
+            model[P] = True;
+            if (DPLL.search(self, clauses, rest, model)):
+                return True;
+            model[P] = False
+            if (DPLL.search(self, clauses, rest, model)):
+                return True;
+    
+    def find_unit_clause(self, symbols, clauses, model):
+        
+        for j in model:
+            for i in range(0, len(clauses)):
+                count = 0;     
+                total = 0;     
+                not_count = 0;          
+                for k in clauses[i]:
+                    total = total + 1;
+                    if j == k:
+                        if clauses[i][k] != model[j]:
+                            count = count + 1;
+                    else:
+                        not_count = not_count + 1;
+                        P = k;
+                        value = clauses[i][k]
+                            
+                if count + not_count == total:
+                    if not_count == 1:
+                        if P not in model:
+                            # this means that only one is not true!
+                            return (P, value)
+        
+        return (None, None)
+                    
+                
                 
     def pop_symbol(self, symbols, literal):
         
@@ -43,6 +87,7 @@ class DPLL(object):
         else:
             clauses_true = 0;
             for j in model:
+            # check for repeated clauses!!!!!
                 for i in range(0, len(clauses)):
                     count = 0;                    
                     for k in clauses[i]:

@@ -9,39 +9,47 @@ class DPLL(object):
         self.clauses = file.clauses;   
         self.exit = 0
         self.count = 0;
+        self.model = {}
 
     def satisfiable(self, ):
         
         clauses = self.KB;
         symbols = list(string.ascii_uppercase[0:self.variables]);
         
-        return DPLL.search(self, clauses, symbols, {})
+        return DPLL.search(self, clauses, symbols, self.model)
     
     def search(self, clauses, symbols, model):
         if self.exit:
             return model
-        if DPLL.check_false_clauses(self, clauses, model) == 0:
+        if DPLL.check_false_clauses(self, clauses, self.model) == 0:
+            DPLL.remove_sym_model(self, self.model, symbols)
             return False
-        n = DPLL.check_clauses(self, clauses, model)
+        n = DPLL.check_clauses(self, clauses, self.model)
         if n == self.clauses:
             self.exit = 1;    
-            return model
-        [P, value] = DPLL.find_pure_symbol(self, clauses, symbols, model)
+            return self.model
+        [P, value] = DPLL.find_pure_symbol(self, clauses, symbols, self.model)
         if P is not None:
             number = DPLL.pop_symbol(self, symbols, P)
             symbols.pop(number)
-            DPLL.search(self, clauses, symbols, model.update({P:value}))
-        [P, value] = DPLL.find_unit_clause(self, clauses, symbols, model)
+            return DPLL.search(self, clauses, symbols, self.model.update({P:value}))
+        [P, value] = DPLL.find_unit_clause(self, clauses, symbols, self.model)
         if P is not None:
             number = DPLL.pop_symbol(self, symbols, P)
             symbols.pop(number)
-            DPLL.search(self, clauses, symbols, model.update({P:value}))
-        print (symbols)
-        print (model)
-        print (symbols[0])
-        return (DPLL.search(self, clauses, symbols[1:], model.update({symbols[0]:True}))
-            or DPLL.search(self, clauses, symbols[1:], model.update({symbols[0]:False})))
+            return DPLL.search(self, clauses, symbols, self.model.update({P:value}))
+        return (DPLL.search(self, clauses, symbols[1:], self.model.update({symbols[0]:True}))
+            or DPLL.search(self, clauses, symbols[1:], self.model.update({symbols[0]:False})))
             
+            
+    def remove_sym_model(self, model, symbols):
+        
+        for i in symbols:
+            if i in model:
+                del model[i]
+        
+        return model
+                    
     def check_false_clauses(self, clauses, model):
         if not model:
             # if there is nothing in the model just return some number so it can continue to find the assignment

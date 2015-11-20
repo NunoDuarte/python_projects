@@ -7,37 +7,40 @@ class DPLL(object):
         self.KB = KB;
         self.variables = file.variables;
         self.clauses = file.clauses;   
+        self.exit = 0
+        self.count = 0;
 
     def satisfiable(self, ):
         
         clauses = self.KB;
         symbols = list(string.ascii_uppercase[0:self.variables]);
         
-        return DPLL.search(self, clauses, symbols, {}, [], [])
+        return DPLL.search(self, clauses, symbols, {})
     
-    def search(self, clauses, symbols, model, variable, value):
-        if variable: 
-            model[variable] = value;
+    def search(self, clauses, symbols, model):
+        if self.exit:
+            return model
         if DPLL.check_false_clauses(self, clauses, model) == 0:
-            del model[variable]         
             return False
-        if DPLL.check_clauses(self, clauses, model) == self.clauses:    
-            return True
-        [P, value] = DPLL.find_pure_symbol(self, symbols, clauses, model)
+        n = DPLL.check_clauses(self, clauses, model)
+        if n == self.clauses:
+            self.exit = 1;    
+            return model
+        [P, value] = DPLL.find_pure_symbol(self, clauses, symbols, model)
         if P is not None:
             number = DPLL.pop_symbol(self, symbols, P)
             symbols.pop(number)
-            DPLL.search(self, clauses, symbols, model, P, value)
-        [P, value] = DPLL.find_unit_clause(self, symbols, clauses, model)
+            DPLL.search(self, clauses, symbols, model.update({P:value}))
+        [P, value] = DPLL.find_unit_clause(self, clauses, symbols, model)
         if P is not None:
             number = DPLL.pop_symbol(self, symbols, P)
             symbols.pop(number)
-            DPLL.search(self, clauses, symbols, model, P, value)
-        P = symbols[0]
-        rest = symbols[1:];
+            DPLL.search(self, clauses, symbols, model.update({P:value}))
         print (symbols)
-        return ((DPLL.search(self, clauses, rest, model, P, True)) 
-            or (DPLL.search(self, clauses, rest, model, P, False)))
+        print (model)
+        print (symbols[0])
+        return (DPLL.search(self, clauses, symbols[1:], model.update({symbols[0]:True}))
+            or DPLL.search(self, clauses, symbols[1:], model.update({symbols[0]:False})))
             
     def check_false_clauses(self, clauses, model):
         if not model:
@@ -48,7 +51,7 @@ class DPLL(object):
                 count = 0;                    
                 for k in clauses[i]:
                     for j in model:
-                        if j == k:
+                        if k == j:
                             if clauses[i][k] != model[j]:
                                 count = count + 1;
                 if count == len(clauses[i]):
@@ -58,7 +61,11 @@ class DPLL(object):
             return -1                
         
     
-    def find_unit_clause(self, symbols, clauses, model):
+    def find_unit_clause(self, clauses, symbols, model):
+        
+        if not model:
+            # if there is nothing in the model just return some number so it can continue to find the assignment
+            return (None, None)
         
         for j in model:
             for i in range(0, len(clauses)):
@@ -111,7 +118,7 @@ class DPLL(object):
             
             return clauses_true;
                         
-    def find_pure_symbol(self, symbols, clauses, model):
+    def find_pure_symbol(self, clauses, symbols, model):
         
         List = list(string.ascii_uppercase[0:self.variables]);
         value = {}

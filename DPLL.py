@@ -43,6 +43,8 @@ class DPLL(object):
             
             
     def remove_sym_model(self, model, symbols):
+        # Before you go back you need to remove from the model the variables that are no longer in the truth model and belong to 
+        # the not-assignment variables (symbols)
         
         for i in symbols:
             if i in model:

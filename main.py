@@ -3,8 +3,11 @@ from GSAT import GSAT
 from WalkSAT import WalkSAT
 from DPLL import DPLL
 
-file = readFile('input.cnf')
+file = readFile('uf20-01.cnf')
 file = file.openFile()
+
+output = file.file.replace('.cnf', '.sol')
+output = open(output, 'w')
 
 KB = file.readClauses(file)
 print (KB)
@@ -17,22 +20,25 @@ max_climbs = 5;
 max_flips = 3000;
 probability = 5;
 
-# GSAT = GSAT(KB, file, max_restarts, max_climbs);
-# solution = GSAT.search();
-# 
-# print (solution)
+GSAT = GSAT(KB, file, max_restarts, max_climbs);
+solution = GSAT.search();
+ 
+print (solution)
 
-# WalkSAT = WalkSAT(KB, file, probability, max_flips);
-# solution = WalkSAT.search();
-# #print (random.choice([0]*20 + [1]*80))
-# print (solution)
+WalkSAT = WalkSAT(KB, file, probability, max_flips);
+solution = WalkSAT.search();
+#print (random.choice([0]*20 + [1]*80))
+print (solution)
 
 DPLL = DPLL(KB, file);
 solution = DPLL.satisfiable();
 print (solution)
 
+# Write to the .sol text file
+if not solution:
+    solution = str(-1);
+    
+output.write(str(file.formatID) + ' ' + str(solution) + '\n')
 
-
-# print (random.randint(0,1))
 
 

@@ -15,6 +15,10 @@ class DPLL(object):
         
         clauses = self.KB;
         symbols = list(string.ascii_uppercase[0:self.variables]);
+        i = 1;
+        while( len(symbols) != self.variables):
+            symbols.append('A' + str(i));
+            i = i +1
         
         return DPLL.search(self, clauses, symbols, self.model)
     
@@ -26,6 +30,7 @@ class DPLL(object):
             return False
         n = DPLL.check_clauses(self, clauses, self.model)
         if n == self.clauses:
+            #if all clauses are true return the model
             self.exit = 1;    
             return self.model
         [P, value] = DPLL.find_pure_symbol(self, clauses, symbols, self.model)
@@ -45,6 +50,8 @@ class DPLL(object):
     def remove_sym_model(self, model, symbols):
         # Before you go back you need to remove from the model the variables that are no longer in the truth model and belong to 
         # the not-assignment variables (symbols)
+        #input: the model/assignment so far and the symbols that are left
+        #output: the model with just the assign variables
         
         for i in symbols:
             if i in model:
@@ -53,6 +60,10 @@ class DPLL(object):
         return model
                     
     def check_false_clauses(self, clauses, model):
+        #checks if there is any false clause
+        #input: all the clauses, and the current model
+        #output: 0 if true, -1 if not true
+        
         if not model:
             # if there is nothing in the model just return some number so it can continue to find the assignment
             return -1
@@ -72,6 +83,9 @@ class DPLL(object):
         
     
     def find_unit_clause(self, clauses, symbols, model):
+        #find unit clauses
+        #input: clauses, symbols and the current model
+        #output: variable and value of unit clause if exists
         
         if not model:
             # if there is nothing in the model just return some number so it can continue to find the assignment
@@ -103,13 +117,19 @@ class DPLL(object):
                 
                 
     def pop_symbol(self, symbols, literal):
+        #if there is a unit clause or unit symbol it needs to be removed from the symbols
+        #input: symbols and the literal to be removed
+        #output: the position in the symbols vector.
         
         for i in range(0, len(symbols)):
             if symbols[i] == literal:
                 return i
         
     def check_clauses(self, clauses, model):
-        
+        #check the clauses if they are being satisfied
+        #input: the assignment
+        #output: the clauses that are true
+               
         if not model:
             # if there is nothing in the model just return some number so it can continue to find the assignment
             return -1
@@ -129,8 +149,16 @@ class DPLL(object):
             return clauses_true;
                         
     def find_pure_symbol(self, clauses, symbols, model):
+        #it finds pure symbols
+        #input: clauses, symbols and the current model
+        #output: the variables and value for the pure symbol if it exists
         
         List = list(string.ascii_uppercase[0:self.variables]);
+        i = 1;
+        while( len(List) != self.variables):
+            List.append('A' + str(i));
+            i = i +1
+            
         value = {}
         
         for i in range(0, len(List)):
@@ -158,6 +186,9 @@ class DPLL(object):
             
             
     def in_symbols(self, variable, symbols):
+        #check if the variable is in symbols
+        #input: variable and the symbols vector
+        #output: true if yes, false if not.
         
         for i in symbols:
             

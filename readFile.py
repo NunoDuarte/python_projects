@@ -44,6 +44,10 @@ class readFile(object):
         
         f_open = self.f;
         List = list(string.ascii_uppercase[0:self.variables]);
+        i = 1;
+        while( len(List) != self.variables):
+            List.append('A' + str(i));
+            i = i +1
         
         # Initiate a Knowledge Base
         KB = [];
@@ -72,6 +76,19 @@ class readFile(object):
                 
         # Return Knowledge Base    
         return KB
+    
+    def writeOutput(self, file, solution):
+        #write the solution 
+        #outputs the data to the output file
+        
+        for i in solution:
+            if solution[i] == True:
+                file.write('v' + ' ' + str(i) + '\n')
+            if solution[i] == False:
+                file.write('v' + ' ' + '-' + str(i) + '\n')
+
+        
+        
         
     
     

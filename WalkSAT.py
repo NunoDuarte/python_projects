@@ -15,6 +15,10 @@ class WalkSAT(object):
         
         assign = {}
         List = list(string.ascii_uppercase[0:self.variables]);
+        i = 1;
+        while( len(List) != self.variables):
+            List.append('A' + str(i));
+            i = i +1
         
         # initiate all proposition symbols with random assignment
         assign = WalkSAT.random_gen_assign(self, assign, List);
@@ -36,12 +40,18 @@ class WalkSAT(object):
                 assign = WalkSAT.most_satisfied(self, assign, n, false_clause)
 
     def change_model(self, assign, symbol):
+        #add the new variable with the new value from the random_value
+        #input: variable with value
+        #output: assignment with the new variable with value
         
         for i in symbol:
             assign[i] = symbol[i];
         return assign
             
     def random_value(self, clause):
+        #chose random value a variable in a false clauses
+        #input: a false_clause
+        #output: returns a variable with a value 
         
         size = len(clause);
         number = random.randint(0, size-1);
@@ -63,6 +73,8 @@ class WalkSAT(object):
             
     def select_one(self, false_clauses):
         # select one of the false_clauses
+        #input: all the false clauses
+        #output: just one false clause
         
         size = len(false_clauses);
         number = random.randint(0, size-1);
@@ -73,6 +85,8 @@ class WalkSAT(object):
     
     def false_clauses(self, assign):
         # find all of the clauses that are not satisfied by the assignment
+        #input: the assignment
+        #output: the set of clauses that are not satisfied
         
         KB = self.KB;
         
@@ -91,7 +105,9 @@ class WalkSAT(object):
                 
 
     def random_gen_assign(self, assign, List):
-        # random generation of value for an assignment
+        #it generates randomly the values to the variables of the assignment.
+        #input: the assignment itself and the list of variables
+        #output the assignment with the values of true and false assigned
         
         for i in range(0, self.variables):
             randomValue = random.randint(0,1);
@@ -104,7 +120,9 @@ class WalkSAT(object):
         return assign     
         
     def check_clauses(self, assign):
-        # check which clauses are true for a specific assignment
+        #check the clauses if they are being satisfied
+        #input: the assignment
+        #output: the clauses that are true
         
         KB = self.KB;
         
@@ -123,6 +141,9 @@ class WalkSAT(object):
     
     
     def most_satisfied(self, assign, n_max, false_clause):
+        #it returns the assignment that satisfies the most clauses
+        #input: assign, number of satisfied clauses, and all the false clauses
+        #output: new assignment
         
         old_assign = assign.copy();
         new_assign = [];

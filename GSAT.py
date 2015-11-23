@@ -15,10 +15,14 @@ class GSAT(object):
         
         assign = {}
         List = list(string.ascii_uppercase[0:self.variables]);
+        i = 1;
+        while( len(List) != self.variables):
+            List.append('A' + str(i));
+            i = i +1
         
         # initiate all proposition symbols with assignment of False
         for i in range(0, self.variables):
-            assign[List[i]] = False;
+            assign[List[i]] = False;      
         
         for i in range(0, self.max_restarts):
             # A randomly generated truth assignment
@@ -35,8 +39,12 @@ class GSAT(object):
                 
             
     def random_best(self, best, number):     
+        #From the best assignments possible it choose one randomly
+        #input: the vector of the best assignments and the total number of them
+        #output: the best assignment chosen randomly
         
         if number < 1:
+            #if it only one just choose that one
             return best
         else:
             randomValue = random.randint(0, len(best)-1)
@@ -47,6 +55,9 @@ class GSAT(object):
 
     
     def random_gen_assign(self, assign, List):
+        #it generates randomly the values to the variables of the assignment.
+        #input: the assignment itself and the list of variables
+        #output the assignment with the values of true and false assigned
         
         for i in range(0, self.variables):
             randomValue = random.randint(0,1);
@@ -59,6 +70,9 @@ class GSAT(object):
         return assign
     
     def check_clauses(self, assign):
+        #check the clauses if they are being satisfied
+        #input: the assignment
+        #output: the clauses that are true
         
         KB = self.KB;
         
@@ -76,6 +90,9 @@ class GSAT(object):
         return clauses_true;
     
     def best_sucessor_of_assign(self, assign, n_max):
+        #it chooses the assignment that changing a value of a variable will satisfy more clauses than the previous value
+        #input: the assignment, and number of satisfied clauses currently
+        #output the new assignment and the new number of satisfied clauses
         
         old_assign = assign.copy();
         new_assign = [];

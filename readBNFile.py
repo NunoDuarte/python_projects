@@ -33,7 +33,6 @@ class readBNFile(object):
                     var = 2;
                     continue
                 if var == 1:
-                    print (line)
                     if 'name' in line:
                         #Remove \n (the enter symbol) 
                         line = line.rstrip()   
@@ -74,7 +73,6 @@ class readBNFile(object):
                         continue
                     if 'table' in line:
                         if node:
-                            print (line) 
                             #Remove \n (the enter symbol) 
                             p_line = line.rstrip()                          
                             p_line = p_line.split(' ');
@@ -175,7 +173,6 @@ class readBNFile(object):
                     Node.table[element] = p;
                     element = ''
                     count = 0;
-                    print (Node.table)
         
         return Node
             

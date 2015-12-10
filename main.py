@@ -1,6 +1,7 @@
 from readBNFile import readBNFile
 from readINFile import readINFile
 from Graph import Graph
+from BN import BN
 import sys
 
 #Python version: 3.5
@@ -15,9 +16,15 @@ if '.bn' in input1:
     fileBN = readBNFile(input1)
     graph = fileBN.readfile(graph.graph)
 
+
 if '.in' in input2:
     fileIn = readINFile(input2)
     q_variable = fileIn.readfile(graph)
     
 else:
     print ('ERROR: wrong format')  
+
+#start algorithm
+BN = BN(graph, q_variable);
+BN.run()
+

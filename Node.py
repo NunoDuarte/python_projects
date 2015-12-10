@@ -9,3 +9,5 @@ class Node(object):
         self.parents = [];
         
         self.table = {}
+        
+        self.neighbors = 0

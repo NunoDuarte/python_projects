@@ -11,3 +11,5 @@ class Node(object):
         self.table = {}
         
         self.neighbors = 0
+        #nodes that are children and so this node is parent
+        self.childs = []

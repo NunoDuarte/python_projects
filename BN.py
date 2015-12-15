@@ -1,10 +1,15 @@
+import numpy as np
+import copy
+import itertools
+
 class BN(object):
     
     def __init__(self, graph, query_variable):
         
         self.graph = graph
         self.q_variable = query_variable;
-        
+        self.exit = 0
+        self.table = []
     
     def run(self, ):
         
@@ -15,23 +20,31 @@ class BN(object):
             print (' no hidden variable')
         
         #now an elimination ordering needs to be determined
-        hidden = BN.min_neighbors(self, hidden, self.graph, 0)
+        hidden = BN.min_neighbors(self, hidden, self.graph)
         
         #auxiliary graph
         aux_graph = self.graph;
-        
+    
             
-        #BN.VE_alg(self, aux_graph, hidden, self.q_variable)
-        
+        BN.VE_alg(self, aux_graph, hidden, self.q_variable)
+        return self.table
 
-    def VE_alg(self, graph, hidden, q_variable, probability):
+    def VE_alg(self, graph, hidden, q_variable):
+        
+        if not hidden:
+            self.graph = graph          
+            self.exit = 1
+            
+        if self.exit:
+            return True
         
         #start with the hidden variable with the lowest number of neighbors
         #initialize the neighbors variable to a big value
         neighbors = 1000
-        for i in hidden:
+        for i in range(0, len(hidden)):
             if hidden[i].neighbors < neighbors:
                 min_neighbor = hidden[i]
+                number = i
                 neighbors = hidden[i].neighbors;
         
         #you have chosen the variable with least neighbors
@@ -50,9 +63,11 @@ class BN(object):
             if min_neighbor.childs:
                 var = 2
         
-            
-        BN.sum_prodFormulation(self, min_neighbor, var, graph)
-            
+        
+        [graph, self.table] = BN.sum_prodFormulation(self, min_neighbor, var, graph)
+        #remove hidden variable
+        hidden.pop(number)
+        BN.VE_alg(self, graph, hidden, self.q_variable)
 
     def sum_prodFormulation(self, hidden, var, graph):
         #calculate the conditional probability without the hidden variable
@@ -69,13 +84,114 @@ class BN(object):
         #it only has parents
         if var == 1:
             
-            table = {}
-            for i in range(0, len(hidden.values)):
-                #one of values (T or F); convert to lower case
-                l = hidden.values[i].lower()
-                for i in range(0, len(hidden.table)/2):
+            table = [[0 for i in range( len(hidden.parents) + 1)] for j in range(pow(2, len(hidden.parents)))]
+            table = sum(hidden.table[-1][i+pow(2, len(hidden.parents))] for i in range(0, len(len(hidden.table[:]/2))))
+            
+            return (graph, table)
+        
+        if var == 2:
+            
+            
+            for i in range(0, len(hidden.childs)):
+                child = hidden.childs[i]
+                #check what is the index of the child
+                index = 0
+                count = 0
+                for i in child.parents:
+                    count = count + 1
+                    if i == hidden.name or i == hidden.alias:
+                        index = count
+                
+                table = []
+                table = child.table[:]
+                #print (range(0,len(child.table[:][0:index]) + range(len(child.table[:][index + 1:]))))
+                i = 0
+                while i < len(table):
+                    if table[i][index] == 'f':
+                        table[i][-1] = float(table[i][-1])*float(hidden.table[1][-1]) + float(table[i+pow(2, len(child.parents) - index)][-1])*float(hidden.table[0][-1])
+                        #remove repeated row
+                        del table[(i+pow(2, len(child.parents) - index))]
+                
+                    if table[i][index] == 't':
+                        table[i][-1] = float(table[i][-1])*float(hidden.table[0][-1]) + float(table[i+pow(2, len(child.parents) - index)][-1])*float(hidden.table[1][-1])
+                        #remove repeated row
+                        del table[(i+pow(2, len(child.parents) - index))]
+
+                    i = i+1
+                table = [[x[0:index], x[index+1:]] for x in table]
+                for i in range(0, len(graph)):
+                    if graph[i].name == child.name:
+                        graph[i].table = table
+                        for j in range(0, len(graph[i].parents)):
+                            if graph[i].parents[j] == hidden.name or graph[i].parents[j] == hidden.alias:
+                                del graph[i].parents[j]
+            
+            return (graph, table)
+        
+        if var == 3:
+            #if the hidden variable has children and parents
+            
+            #count the number of variables you have
+            count = len(hidden.childs)
+            count = count + len(hidden.parents)
+            
+            table = [[0 for i in range(0, count + 1)] for j in range(0, pow(2, count))]
+            
+            index = 0
+            index_parent = 0
+            index_child = 0
+            mux_1 = 1
+            mux_2 = 1
+            for i in itertools.product(['t','f'],repeat=count):
+                table[index] = [i] + [0]
+
+                for j in range(0, len(hidden.childs)):
+                    child = hidden.childs[j]
+                    for k in range(0, len(child.parents)):
+                        if child.parents[k] == hidden.name or child.parents[k] == hidden.alias:
+                            parent = k
+                    value_1 = float(child.table[index_child][-1])
+                    value_2 = float(child.table[index_child+pow(2, len(child.parents) - parent)][-1])
                     
                     
+                    mux_1 = value_1*mux_1
+                    mux_2 = value_2*mux_2
+                index_child = index_child + 1
+                if index_child >= len(child.table)/2:
+                    index_child = 0;
+                
+                #the parents
+                value_1 = hidden.table[index_parent][-1][0]
+                value_2 = hidden.table[index_parent+pow(2, len(hidden.parents))][-1][0]
+                    
+                mux_1 = value_1*mux_1
+                mux_2 = value_2*mux_2 
+                
+                table[index][-1] = mux_1 + mux_2
+                index_parent = index_parent + 1
+                if index_parent >= len(hidden.table)/2:
+                    index_parent = 0
+                
+                #reset
+                mux_1 = 1
+                mux_2 = 1
+                index = index + 1
+                
+            for i in range(0, len(graph)):
+                if graph[i].name == hidden.name:
+                    for j in range(0, len(graph[i].childs)):
+                        for k in range(0, len(graph)):
+                            if graph[k].name == graph[i].childs[j].name or graph[k].name == graph[i].childs[j].alias:
+                                graph[k].table = table
+                                for l in range(0, len(graph[k].parents)):
+                                    if graph[k].parents[l] == hidden.name or graph[k].parents[l] == hidden.alias:
+                                        del graph[k].parents[l]
+                                        #graph[k].parents.append()
+                    #table[index][i[j]] = 
+            
+            return (graph, table)  
+                
+            
         
         
         

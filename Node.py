@@ -8,7 +8,7 @@ class Node(object):
         self.alias = 0;
         self.parents = [];
         
-        self.table = {}
+        self.table = []
         
         self.neighbors = 0
         #nodes that are children and so this node is parent

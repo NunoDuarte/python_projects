@@ -6,8 +6,8 @@ import sys
 
 #Python version: 3.5
 #read input file
-input1 = 'input1.bn'
-input2 = 'input2.in'
+input1 = sys.argv[1]
+input2 = sys.argv[2]
 graph = Graph()
 
 
@@ -26,5 +26,15 @@ else:
 
 #start algorithm
 BN = BN(graph, q_variable);
-BN.run()
+sol = BN.run()
+
+solution = sol[0][-1]
+#the probability of the query being false (in case it has 2 evidence variables)
+solution_1 = sol[pow(2, 2)][-1]
+
+output = input1.replace('.bn', '.sol')
+output = open(output, 'w')
+output.write('########## SOLUTION ##########\n')
+output.write('QUERY '+ str(fileIn.query) + '\n')
+output.write('QUERY_DIST '+ 'T ' + str(solution) + ' F ' +  str(solution_1) + '\n')
 

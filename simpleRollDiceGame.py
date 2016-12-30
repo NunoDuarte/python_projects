@@ -1,4 +1,6 @@
 import random
+import matplotlib
+import matplotlib.pylab as plt
 
 def rollDice():
     roll = random.randint(1, 100)
@@ -18,26 +20,39 @@ def simple_bettor(funds, initial_wager, wager_count):
     value = funds
     wager = initial_wager
     
-    currentWager = 0
+    wX = []
+    vY = []
     
-    while currentWager < wager_count:
+    currentWager = 1
+    
+    while currentWager <= wager_count:
         if rollDice():
             value += wager
+            wX.append(currentWager)
+            vY.append(value)
         else:
             value -=wager
+            wX.append(currentWager)
+            vY.append(value)
             
         currentWager += 1
         
     if value < 0:
         value = 'broke'
-    print('Funds:', value)
+        
+    plt.plot(wX, vY)
 
 x = 0
 
 while x < 100:
     simple_bettor(10000, 100, 10000)
+    
     x = x + 1
-#This examples tells you that using the same technique, which is simple probability, some people can make a profit while some may lose
-#money or even get away with anything. And the people who win money may look like that they know what they are doing, when it is 
-#clear that it was pure luck that went in their favor.
+    
+plt.ylabel('Account Value')
+plt.xlabel('Wager Count')
+plt.show()
+
+#The conclusion:
+#After some time, the house always wins. 
             

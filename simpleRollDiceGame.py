@@ -79,23 +79,63 @@ def double_bettor(funds, initial_wager, wager_count):
     #print(value)             
     plt.plot(wX, vY)     
  
+def simple_bettor(funds, initial_wager, wager_count):
+    global broke_count
+    value = funds
+    wager = initial_wager
     
+    wX = []
+    vY = []
+    
+    currentWager = 1
+    
+    while currentWager <= wager_count:
+        if rollDice():
+            value += wager
+            wX.append(currentWager)
+            vY.append(value)
+        else:
+            value -=wager
+            wX.append(currentWager)
+            vY.append(value)
+            
+        currentWager += 1
+        
+    if value < 0:
+        broke_count +=1
+        value = 'broke'
+        
+    plt.plot(wX, vY)    
 
-xx = 0
+# xx = 0
+# broke_count = 0
+# 
+# while xx< 1000:
+#     double_bettor(10000,100,100)
+#     xx +=1
+#     
+# print ('death rate:', (broke_count/float (xx))*100)  
+# print('survival rate:', 100 - (broke_count/float (xx))*100)  
+# 
+# plt.axhline(0, color = 'r') 
+# plt.ylabel('Account Value')
+# plt.xlabel('Wager Count')
+# plt.show()
+
+x = 0
 broke_count = 0
 
-while xx< 1000:
-    double_bettor(10000,100,100)
-    xx +=1
+while x < 1000:
+    simple_bettor(10000,100,10000)
+    x+=1
     
-print ('death rate:', (broke_count/float (xx))*100)  
-print('survival rate:', 100 - (broke_count/float (xx))*100)  
-
-plt.axhline(0, color = 'r') 
+print ('death rate:', (broke_count/float (x))*100)
+print('survival rate:', 100 - (broke_count/float (x))*100) 
+plt.axhline(0, color = 'r')
 plt.ylabel('Account Value')
 plt.xlabel('Wager Count')
-plt.show()
+plt.show()   
 
-#The conclusion:
-#After some time, the house always wins. 
-            
+#Conclusion:
+
+#simple bettor will eventually die in the long run! Double bettor will last longer         

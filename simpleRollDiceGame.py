@@ -3,6 +3,9 @@ import matplotlib
 import matplotlib.pylab as plt
 import time
 
+lower_busts = 31.235
+higher_profit = 63.208
+
 sampleSize = 100
 startingFunds = 10000
 wagerSize = 100
@@ -26,7 +29,8 @@ def double_bettor(funds, initial_wager, wager_count, color):
     value = funds
     wager = initial_wager
     
-    global broke_count
+    global double_busts
+    global double_profit
     wX = []
     vY = []
     
@@ -51,7 +55,7 @@ def double_bettor(funds, initial_wager, wager_count, color):
                 vY.append(value)
                 if value <= 0:
                     #print('we went broke after ',currentWager, ' bets')
-                    broke_count +=1
+                    double_busts +=1
                     break
                     
         elif previousWager == 'loss':
@@ -80,17 +84,79 @@ def double_bettor(funds, initial_wager, wager_count, color):
                 vY.append(value)
                 if value <= 0:
                     #print('we went broke after ',currentWager, ' bets')
-                    broke_count +=1
+                    double_busts +=1
                     break      
                 #print (value)
 
         currentWager += 1
         
     #print(value)             
-    plt.plot(wX, vY, color)     
- 
+    plt.plot(wX, vY, color)
+    if value > funds:
+        double_profit +=1  
+        
+def multiple_bettor(funds, initial_wager, wager_count, random_multiple):  
+    global multiple_busts
+    global multiple_profit
+    
+    value = funds
+    wager = initial_wager
+    wX = []
+    vY = []
+    
+    currentWager = 1
+    previousWager = 'win' 
+    previousWagerAmount = initial_wager
+    
+    while currentWager <= wager_count:
+        if previousWager == 'win':
+            if  rollDice():
+                value+=wager
+                wX.append(currentWager)
+                vY.append(value)
+            else:
+                value-=wager
+                previousWager = 'loss'
+                previousWagerAmount = wager
+                wX.append(currentWager)
+                vY.append(value)
+                if value <= 0:
+                    multiple_busts +=1
+                    break
+                    
+        elif previousWager == 'loss':
+            if rollDice():
+                wager = previousWagerAmount * random_multiple
+                if (value - wager < 0):
+                    wager = value
+                value+=wager
+                previousWager = 'win'
+                wager = initial_wager
+                wX.append(currentWager)
+                vY.append(value)
+            else:
+                wager = previousWagerAmount * random_multiple
+                if (value - wager < 0):
+                    wager = value                
+                value -=wager
+                previousWager = 'loss'
+                previousWagerAmount = wager
+                wX.append(currentWager)
+                vY.append(value)
+                if value <= 0:
+                    multiple_busts +=1
+                    break      
+
+        currentWager += 1
+                  
+    plt.plot(wX, vY)
+    if value > funds:
+        multiple_profit +=1
+        
+         
 def simple_bettor(funds, initial_wager, wager_count, color):
-    global broke_count
+    global simple_busts
+    global simple_profit
     value = funds
     wager = initial_wager
     
@@ -112,41 +178,51 @@ def simple_bettor(funds, initial_wager, wager_count, color):
         currentWager += 1
         
     if value <= 0:
-        broke_count +=1
-        value = 'broke'
+        value = 0
+        simple_busts +=1
+        #value = 'broke'
         
-    plt.plot(wX, vY,color)    
+    plt.plot(wX, vY,color)
+    if value > funds:
+        value = 0
+        simple_profit+=1 
 
-# xx = 0
-# broke_count = 0
-# 
-# while xx< 1000:
-#     double_bettor(10000,100,100)
-#     xx +=1
-#     
-# print ('death rate:', (broke_count/float (xx))*100)  
-# print('survival rate:', 100 - (broke_count/float (xx))*100)  
-# 
-# plt.axhline(0, color = 'r') 
-# plt.ylabel('Account Value')
-# plt.xlabel('Wager Count')
-# plt.show()
 
-x = 0
-broke_count = 0
-
-while x < sampleSize:
-    #simple_bettor(startingFunds,wagerSize,wagerCount, 'k')
-    double_bettor(startingFunds,wagerSize,wagerCount, 'c')
-    x+=1
+while True:
+    multiple_busts = 0.0
+    multiple_profit = 0.0
+    multipleSampSize = 10000
+    currentSample = 1
     
-#print ('death rate:', (broke_count/float (x))*100)
-#print('survival rate:', 100 - (broke_count/float (x))*100) 
-plt.axhline(0, color = 'r')
-plt.ylabel('Account Value')
-plt.xlabel('Wager Count')
-plt.show()   
+    random_multiple = random.uniform(1.0, 2.0)
+    
+    while currentSample <= multipleSampSize:
+        multiple_bettor(startingFunds,wagerSize,wagerCount, random_multiple)
+        currentSample+=1
+        
+    if (((multiple_busts/multipleSampSize)*100.00 < lower_busts) and ((multiple_busts/multipleSampSize)*100.00 > higher_profit)):
+        print ('###########################')
+        print ('Found a winner, the multiple was: ' ,random_multiple)
+        print ('###########################')
+        print ('Higher profit rate to beat: ' ,higher_profit)
+        print('bust rate: ', (multiple_busts/multipleSampSize)*100.00)
+        print('Profit rate: ', (multiple_profit/multipleSampSize)*100.00)
+        print ('###########################')
+    else:
+        print ('###########################')
+        print ('Found a loser, the multiple was: ' ,random_multiple)
+        print ('###########################')
+        print ('Higher profit rate to beat: ' ,higher_profit)
+        print('bust rate: ', (multiple_busts/multipleSampSize)*100.00)
+        print('Profit rate: ', (multiple_profit/multipleSampSize)*100.00)
+        print ('###########################')
+    
+
+        
+
 
 #Conclusion:
 
-#simple bettor will eventually die in the long run! Double bettor will last longer         
+#even though in the simple_bettor you never go broke and you have a better chance of profiting
+#its the double _bettor that has the most meaningful profit. Although it is riskier because you
+# can go broke.

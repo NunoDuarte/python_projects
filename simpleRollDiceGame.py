@@ -3,6 +3,11 @@ import matplotlib
 import matplotlib.pylab as plt
 import time
 
+sampleSize = 1000
+startingFunds = 10000
+wagerSize = 100
+wagerCount = 10000
+
 def rollDice():
     roll = random.randint(1, 100)
     
@@ -77,7 +82,7 @@ def double_bettor(funds, initial_wager, wager_count):
         currentWager += 1
         
     #print(value)             
-    plt.plot(wX, vY)     
+    plt.plot(wX, vY, 'c')     
  
 def simple_bettor(funds, initial_wager, wager_count):
     global broke_count
@@ -105,7 +110,7 @@ def simple_bettor(funds, initial_wager, wager_count):
         broke_count +=1
         value = 'broke'
         
-    plt.plot(wX, vY)    
+    plt.plot(wX, vY,'k')    
 
 # xx = 0
 # broke_count = 0
@@ -125,12 +130,13 @@ def simple_bettor(funds, initial_wager, wager_count):
 x = 0
 broke_count = 0
 
-while x < 1000:
-    simple_bettor(10000,100,10000)
+while x < sampleSize:
+    simple_bettor(startingFunds,wagerSize,wagerCount)
+    double_bettor(startingFunds,wagerSize,wagerCount)
     x+=1
     
-print ('death rate:', (broke_count/float (x))*100)
-print('survival rate:', 100 - (broke_count/float (x))*100) 
+#print ('death rate:', (broke_count/float (x))*100)
+#print('survival rate:', 100 - (broke_count/float (x))*100) 
 plt.axhline(0, color = 'r')
 plt.ylabel('Account Value')
 plt.xlabel('Wager Count')

@@ -3,14 +3,6 @@ import matplotlib
 import matplotlib.pylab as plt
 import time
 
-lower_busts = 31.235
-higher_profit = 63.208
-
-sampleSize = 1000
-startingFunds = 100000
-wagerSize = 10
-wagerCount = 1000
-
 def rollDice():
     #Now the odds are 50/50
     roll = random.randint(1, 100)
@@ -243,23 +235,45 @@ def simple_bettor(funds, initial_wager, wager_count, color):
         value = 0
         simple_profit+=1   
 
-Ret = 0.0
-da_busts = 0
-da_profit = 0
-da_SampSize = 10000
+
+lower_busts = 31.235
+higher_profit = 63.208
+
+sampleSize = 1000
+startingFunds = 10000
 
 
-counter = 1
-while counter <= da_SampSize:
-    dAlembert(startingFunds, wagerSize, wagerCount)
-    counter +=1
+while True:
+    #wagerSize = 100
+    #wagerCount = 1000
+    wagerSize = random.uniform(1.0, 1000.00)
+    wagerCount = random.uniform(10.0, 10000)
     
-print ('Total invested ', da_SampSize*startingFunds)
-print('Total Return ', Ret)
-print('ROI ', Ret - (da_SampSize*startingFunds))
-print('Bust Rate: ', (da_busts/da_SampSize)*100.00)
-print('Profit rate: ', (da_profit/da_SampSize)*100.00)
+    Ret = 0.0
+    da_busts = 0
+    da_profit = 0
+    da_SampSize = 10000
+    counter = 1
+    
+    while counter <= da_SampSize:
+        dAlembert(startingFunds, wagerSize, wagerCount)
+        counter +=1
+    
+    ROI = Ret - (da_SampSize*startingFunds)
+    totalInvested = da_SampSize*startingFunds
+    
+    percentROI = (ROI/totalInvested)*100.00
+      
+    if percentROI > 1: #0.865 it will give us good wager size percentage  
+        print('____________________________________')
+        print ('Total invested ', da_SampSize*startingFunds)
+        print('Total Return ', Ret)
+        print('ROI ', Ret - (da_SampSize*startingFunds))
+        print('PercentROI:', percentROI)
+        print('Bust Rate: ', (da_busts/da_SampSize)*100.00)
+        print('Profit rate: ', (da_profit/da_SampSize)*100.00)
+        print('wagerSize: ', wagerSize)
+        print('Wager Count: ', wagerCount)
+        print('wager size percentage: ', (wagerSize/startingFunds)*100.00)
 
 #Conclusion:
-# d'Alembert alternative works on the long run for 50/50 odds if there is a good relation between your total amount of funds
-# and the size of each wager. If the wager is too big than the probability of d'Alembert making you lose money is high.

@@ -263,6 +263,7 @@ while True:
     totalInvested = da_SampSize*startingFunds
     
     percentROI = (ROI/totalInvested)*100.00
+    wagerSizePercent = (wagerSize/startingFunds)*100.00
       
     if percentROI > 1: #0.865 it will give us good wager size percentage  
         print('____________________________________')
@@ -274,6 +275,6 @@ while True:
         print('Profit rate: ', (da_profit/da_SampSize)*100.00)
         print('wagerSize: ', wagerSize)
         print('Wager Count: ', wagerCount)
-        print('wager size percentage: ', (wagerSize/startingFunds)*100.00)
+        print('wager size percentage: ', wagerSizePercent)
 
 #Conclusion:

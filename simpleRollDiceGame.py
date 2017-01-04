@@ -6,27 +6,25 @@ import time
 lower_busts = 31.235
 higher_profit = 63.208
 
-sampleSize = 100
-startingFunds = 10000
+sampleSize = 1000
+startingFunds = 100000
 wagerSize = 10
-wagerCount = 10000
-
+wagerCount = 1000
 
 def rollDice():
+    #Now the odds are 50/50
     roll = random.randint(1, 100)
-    
-    if roll == 100:
-        #print( roll, 'roll was 100, you lose. What are the odds?! Play again!')
-        return False
-    elif roll <= 50:
+
+    if roll <= 50:
         #print(roll, 'roll was 1-50, you lose. Play again!')
         return False
     
-    elif 100 > roll > 50:
+    elif roll >= 51:
         #print(roll, 'roll was 51-99, you win! *pretty lights flash* Play more!')
         return True
 
 def dAlembert(funds, initial_wager, wager_count):
+    global Ret
     global da_busts 
     global da_profit 
     
@@ -79,10 +77,11 @@ def dAlembert(funds, initial_wager, wager_count):
                     da_busts +=1
                     break       
         currentWager += 1
-        if (value > funds):
-            da_profit +=1
-        
-        print('value', value)
+    if (value > funds):
+        da_profit +=1
+    
+    #print('value', value)
+    Ret += value
             
             
 def double_bettor(funds, initial_wager, wager_count, color): 
@@ -153,8 +152,7 @@ def double_bettor(funds, initial_wager, wager_count, color):
     #print(value)             
     plt.plot(wX, vY, color)
     if value > funds:
-        double_profit +=1  
-        
+        double_profit +=1     
 def multiple_bettor(funds, initial_wager, wager_count, random_multiple):  
     global multiple_busts
     global multiple_profit
@@ -211,9 +209,7 @@ def multiple_bettor(funds, initial_wager, wager_count, random_multiple):
                   
     plt.plot(wX, vY)
     if value > funds:
-        multiple_profit +=1
-        
-         
+        multiple_profit +=1       
 def simple_bettor(funds, initial_wager, wager_count, color):
     global simple_busts
     global simple_profit
@@ -245,45 +241,25 @@ def simple_bettor(funds, initial_wager, wager_count, color):
     plt.plot(wX, vY,color)
     if value > funds:
         value = 0
-        simple_profit+=1 
+        simple_profit+=1   
 
-
-# while True:
-#     multiple_busts = 0.0
-#     multiple_profit = 0.0
-#     multipleSampSize = 10000
-#     currentSample = 1
-#     
-#     random_multiple = random.uniform(1.0, 2.0)
-#     
-#     while currentSample <= multipleSampSize:
-#         multiple_bettor(startingFunds,wagerSize,wagerCount, random_multiple)
-#         currentSample+=1
-#         
-#     if (((multiple_busts/multipleSampSize)*100.00 < lower_busts) and ((multiple_busts/multipleSampSize)*100.00 > higher_profit)):
-#         print ('###########################')
-#         print ('Found a winner, the multiple was: ' ,random_multiple)
-#         print ('###########################')
-#         print ('Higher profit rate to beat: ' ,higher_profit)
-#         print('bust rate: ', (multiple_busts/multipleSampSize)*100.00)
-#         print('Profit rate: ', (multiple_profit/multipleSampSize)*100.00)
-#         print ('###########################')
-#     else:
-#         print ('###########################')
-#         print ('Found a loser, the multiple was: ' ,random_multiple)
-#         print ('###########################')
-#         print ('Higher profit rate to beat: ' ,higher_profit)
-#         print('bust rate: ', (multiple_busts/multipleSampSize)*100.00)
-#         print('Profit rate: ', (multiple_profit/multipleSampSize)*100.00)
-#         print ('###########################')
-    
+Ret = 0.0
 da_busts = 0
 da_profit = 0
-        
-dAlembert(startingFunds, wagerSize, wagerCount)
+da_SampSize = 10000
+
+
+counter = 1
+while counter <= da_SampSize:
+    dAlembert(startingFunds, wagerSize, wagerCount)
+    counter +=1
+    
+print ('Total invested ', da_SampSize*startingFunds)
+print('Total Return ', Ret)
+print('ROI ', Ret - (da_SampSize*startingFunds))
+print('Bust Rate: ', (da_busts/da_SampSize)*100.00)
+print('Profit rate: ', (da_profit/da_SampSize)*100.00)
 
 #Conclusion:
-
-#even though in the simple_bettor you never go broke and you have a better chance of profiting
-#its the double _bettor that has the most meaningful profit. Although it is riskier because you
-# can go broke.
+# d'Alembert alternative works on the long run for 50/50 odds if there is a good relation between your total amount of funds
+# and the size of each wager. If the wager is too big than the probability of d'Alembert making you lose money is high.

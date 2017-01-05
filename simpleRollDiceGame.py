@@ -14,7 +14,6 @@ def rollDice():
     elif roll >= 51:
         #print(roll, 'roll was 51-99, you win! *pretty lights flash* Play more!')
         return True
-
 def dAlembert(funds, initial_wager, wager_count):
     global Ret
     global da_busts 
@@ -71,11 +70,7 @@ def dAlembert(funds, initial_wager, wager_count):
         currentWager += 1
     if (value > funds):
         da_profit +=1
-    
-    #print('value', value)
-    Ret += value
-            
-            
+    Ret += value       
 def double_bettor(funds, initial_wager, wager_count, color): 
     value = funds
     wager = initial_wager
@@ -276,5 +271,27 @@ while True:
         print('wagerSize: ', wagerSize)
         print('Wager Count: ', wagerCount)
         print('wager size percentage: ', wagerSizePercent)
+        
+        saveFile = open('monteCarloLiberal.csv', 'a')
+        saveLine = '\n' + str(percentROI) + ',' + str(wagerSizePercent) + ',' + str(wagerCount) + ',g' #positive ROI
+        saveFile.write(saveLine)
+        saveFile.close()
+        
+    elif percentROI < -1:
+        print('____________________________________')
+        print ('Total invested ', da_SampSize*startingFunds)
+        print('Total Return ', Ret)
+        print('ROI ', Ret - (da_SampSize*startingFunds))
+        print('PercentROI:', percentROI)
+        print('Bust Rate: ', (da_busts/da_SampSize)*100.00)
+        print('Profit rate: ', (da_profit/da_SampSize)*100.00)
+        print('wagerSize: ', wagerSize)
+        print('Wager Count: ', wagerCount)
+        print('wager size percentage: ', wagerSizePercent)
+        
+        saveFile = open('monteCarloLiberal.csv', 'a')
+        saveLine = '\n' + str(percentROI) + ',' + str(wagerSizePercent) + ',' + str(wagerCount) + ',r' #negative ROI (lost money)
+        saveFile.write(saveLine)
+        saveFile.close()        
 
 #Conclusion:

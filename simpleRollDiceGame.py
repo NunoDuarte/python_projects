@@ -2,6 +2,12 @@ import random
 import matplotlib
 import matplotlib.pylab as plt
 import time
+import csv
+import importlib
+importlib.import_module('mpl_toolkits.mplot3d').Axes3D
+
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
 
 def rollDice():
     #Now the odds are 50/50
@@ -237,61 +243,80 @@ higher_profit = 63.208
 sampleSize = 1000
 startingFunds = 10000
 
+def run():
+    while True:
+        #wagerSize = 100
+        #wagerCount = 1000
+        wagerSize = random.uniform(1.0, 1000.00)
+        wagerCount = random.uniform(10.0, 10000)
+        
+        Ret = 0.0
+        da_busts = 0
+        da_profit = 0
+        da_SampSize = 10000
+        counter = 1
+        
+        while counter <= da_SampSize:
+            dAlembert(startingFunds, wagerSize, wagerCount)
+            counter +=1
+        
+        ROI = Ret - (da_SampSize*startingFunds)
+        totalInvested = da_SampSize*startingFunds
+        
+        percentROI = (ROI/totalInvested)*100.00
+        wagerSizePercent = (wagerSize/startingFunds)*100.00
+          
+        if percentROI > 1: #0.865 it will give us good wager size percentage  
+            print('____________________________________')
+            print ('Total invested ', da_SampSize*startingFunds)
+            print('Total Return ', Ret)
+            print('ROI ', Ret - (da_SampSize*startingFunds))
+            print('PercentROI:', percentROI)
+            print('Bust Rate: ', (da_busts/da_SampSize)*100.00)
+            print('Profit rate: ', (da_profit/da_SampSize)*100.00)
+            print('wagerSize: ', wagerSize)
+            print('Wager Count: ', wagerCount)
+            print('wager size percentage: ', wagerSizePercent)
+            
+            saveFile = open('monteCarloLiberal.csv', 'a')
+            saveLine = '\n' + str(percentROI) + ',' + str(wagerSizePercent) + ',' + str(wagerCount) + ',g' #positive ROI
+            saveFile.write(saveLine)
+            saveFile.close()
+            
+        elif percentROI < -1:
+            print('____________________________________')
+            print ('Total invested ', da_SampSize*startingFunds)
+            print('Total Return ', Ret)
+            print('ROI ', Ret - (da_SampSize*startingFunds))
+            print('PercentROI:', percentROI)
+            print('Bust Rate: ', (da_busts/da_SampSize)*100.00)
+            print('Profit rate: ', (da_profit/da_SampSize)*100.00)
+            print('wagerSize: ', wagerSize)
+            print('Wager Count: ', wagerCount)
+            print('wager size percentage: ', wagerSizePercent)
+            
+            saveFile = open('monteCarloLiberal.csv', 'a')
+            saveLine = '\n' + str(percentROI) + ',' + str(wagerSizePercent) + ',' + str(wagerCount) + ',r' #negative ROI (lost money)
+            saveFile.write(saveLine)
+            saveFile.close()        
 
-while True:
-    #wagerSize = 100
-    #wagerCount = 1000
-    wagerSize = random.uniform(1.0, 1000.00)
-    wagerCount = random.uniform(10.0, 10000)
-    
-    Ret = 0.0
-    da_busts = 0
-    da_profit = 0
-    da_SampSize = 10000
-    counter = 1
-    
-    while counter <= da_SampSize:
-        dAlembert(startingFunds, wagerSize, wagerCount)
-        counter +=1
-    
-    ROI = Ret - (da_SampSize*startingFunds)
-    totalInvested = da_SampSize*startingFunds
-    
-    percentROI = (ROI/totalInvested)*100.00
-    wagerSizePercent = (wagerSize/startingFunds)*100.00
-      
-    if percentROI > 1: #0.865 it will give us good wager size percentage  
-        print('____________________________________')
-        print ('Total invested ', da_SampSize*startingFunds)
-        print('Total Return ', Ret)
-        print('ROI ', Ret - (da_SampSize*startingFunds))
-        print('PercentROI:', percentROI)
-        print('Bust Rate: ', (da_busts/da_SampSize)*100.00)
-        print('Profit rate: ', (da_profit/da_SampSize)*100.00)
-        print('wagerSize: ', wagerSize)
-        print('Wager Count: ', wagerCount)
-        print('wager size percentage: ', wagerSizePercent)
+def graph():
+    with open('monteCarloLiberal.csv', 'r') as montecarlo:
+        datas = csv.reader(montecarlo, delimiter=',')
         
-        saveFile = open('monteCarloLiberal.csv', 'a')
-        saveLine = '\n' + str(percentROI) + ',' + str(wagerSizePercent) + ',' + str(wagerCount) + ',g' #positive ROI
-        saveFile.write(saveLine)
-        saveFile.close()
-        
-    elif percentROI < -1:
-        print('____________________________________')
-        print ('Total invested ', da_SampSize*startingFunds)
-        print('Total Return ', Ret)
-        print('ROI ', Ret - (da_SampSize*startingFunds))
-        print('PercentROI:', percentROI)
-        print('Bust Rate: ', (da_busts/da_SampSize)*100.00)
-        print('Profit rate: ', (da_profit/da_SampSize)*100.00)
-        print('wagerSize: ', wagerSize)
-        print('Wager Count: ', wagerCount)
-        print('wager size percentage: ', wagerSizePercent)
-        
-        saveFile = open('monteCarloLiberal.csv', 'a')
-        saveLine = '\n' + str(percentROI) + ',' + str(wagerSizePercent) + ',' + str(wagerCount) + ',r' #negative ROI (lost money)
-        saveFile.write(saveLine)
-        saveFile.close()        
-
+        for eachLine in datas:
+            percentROI = float(eachLine[0])
+            wagerSizePercent = float(eachLine[1])
+            wagerCount = float(eachLine[2])
+            pcolor = eachLine[3]
+            
+            ax.scatter(wagerSizePercent, wagerCount,percentROI, color=pcolor)
+            
+            ax.set_xlabel('Wager Percent Size')
+            ax.set_ylabel('Wager Count')
+            ax.set_zlabel('ROI Percent')
+            
+    plt.show()
+    
+graph()
 #Conclusion:

@@ -19,10 +19,18 @@ style.use('ggplot')
 
 broke_count = 0
 
+totalFunded = 0
+totalEnding = 0
+
 def Labouchere():
     global broke_count
+    global totalFunded
+    global totalEnding
     
     starting_funds = 100
+    
+    totalFunded += starting_funds
+
     goal = 10
     system = [1,1,1,1,1,1,1,1,1,1]
     #system =[1,2,2,3,2]
@@ -35,8 +43,8 @@ def Labouchere():
     
     not_broke = True
     
-    wins = 1
-    loses = 1
+    wins = 0
+    loses = 0
     
     while profit < goal and not_broke:
         
@@ -58,6 +66,7 @@ def Labouchere():
             size = current_funds
             not_broke =  False
             broke_count += 1
+            loses += 1
             
         dice = random.randrange(1,101) #randrange hits every number from 1 to 101 but it does not reach 101, so it's from 1 to 100
         
@@ -81,6 +90,7 @@ def Labouchere():
             
     wagerSize.append(size)
     plot_funds.append(current_funds)
+    totalEnding += current_funds
     
     s1.plot(wagerSize)
     s2.plot(plot_funds)
@@ -95,8 +105,20 @@ for x in range(sample_size):
     Labouchere()
     
 print('Broke Percentage: ', (float(broke_count)/sample_size)*100.0)
-plt.show()
+print('Total Funded: ', totalFunded)
+print('Total Ending: ', totalEnding)
+#plt.show()
             
+#Conclusion:
+# Even though you only lose 10% of the time you are risking 100 dollars to win 10 dollars back
+# So the amount of times you win 10 dollars and the amounts times you lose and lose 100 dollars you would be braking even
+# this means that, with 50/50 odds you would be getting, statistically, the same amount of money you just betted
+# using this strategy. 
+# Final conclusion, you can't beat 50/50 odds. No matter what strategy you are using. You just can't beat it.
+# And another problem, hurting your possibilities, is that most casino games don't insure 50/50.
+# Most of the times the house has the highest probability of winning.
+
+# They are there to make money, not to give money away! It's an illusion of easy money.
     
     
 

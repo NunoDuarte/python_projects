@@ -15,5 +15,17 @@ df3 = pd.DataFrame({'HPI':[80,85,88,85],
                     'Low_tier_HPI':[50, 52, 50, 53]},
                    index = [2001, 2002, 2003, 2004])
 
+print(pd.merge(df1,df2, on=['HPI', 'Int_rate']))
+
+df1.set_index('HPI', inplace=True)
+df3.set_index('HPI', inplace=True)
+
+joined = df1.join(df3)
+print(joined)
+
+
+
+
+
 
 

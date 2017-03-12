@@ -5,14 +5,6 @@ import matplotlib.pyplot as plt
 from matplotlib import style
 style.use('fivethirtyeight')
 
-def mortgage_30y():
-    query = 'FMAC/MORTG'
-    df = quandl.get(query, trim_start='1975-01-01', authtoken='SujsyC1d6nRqDVehYGxs') #I needed to go to quandl api to get a api_key
-    df['Value'] = (df['Value'] - df['Value'][0]) / df['Value'][0] * 100.0
-    df = df.resample('M').mean() #sort it by the month
-    df.columns = ['M30'] #because it has just one column we can just say df.columns instead of df.columns['M30']
-    return df
-
 def state_list():
     fiddy_states = pd.read_html('https://simple.wikipedia.org/wiki/List_of_U.S._states')
     return fiddy_states[0][0][1:]
@@ -47,6 +39,47 @@ def HPI_benchmark():
     df['Value'] = (df['Value'] - df['Value'][0]) / df['Value'][0] * 100.0
     return df
 
+def mortgage_30y():
+    query = 'FMAC/MORTG'
+    df = quandl.get(query, trim_start='1975-01-01', authtoken='SujsyC1d6nRqDVehYGxs') #I needed to go to quandl api to get a api_key
+    df['Value'] = (df['Value'] - df['Value'][0]) / df['Value'][0] * 100.0
+    df = df.resample('M').mean() #sort it by the month
+    df.columns = ['M30'] #because it has just one column we can just say df.columns instead of df.columns['M30']
+    return df
+
+# split shares when shares are worth too much money
+def sp500_data():
+    df = quandl.get("YAHOO/INDEX_GSPC", trim_start="1975-01-01")
+    df["Adjusted Close"] = (df["Adjusted Close"]-df["Adjusted Close"][0]) / df["Adjusted Close"][0] * 100.0
+    df=df.resample('M').mean()
+    df.rename(columns={'Adjusted Close':'sp500'}, inplace=True)
+    df = df['sp500']
+    return df
+
+def gdp_data():
+    df = quandl.get("BCB/4385", trim_start="1975-01-01")
+    df["Value"] = (df["Value"]-df["Value"][0]) / df["Value"][0] * 100.0
+    df=df.resample('M').mean()
+    df.rename(columns={'Value':'GDP'}, inplace=True)
+    df = df['GDP']
+    return df
+
+# unemployment rate may be correlated with the index housing prices. If there are more people unemployed then there wont be that
+# much demand and so the housing prices might go down (who knows?!)
+def us_unemployment():
+    df = quandl.get("ECPI/JOB_G", trim_start="1975-01-01")
+    df["Unemployment Rate"] = (df["Unemployment Rate"]-df["Unemployment Rate"][0]) / df["Unemployment Rate"][0] * 100.0
+    df=df.resample('1D').mean()
+    df=df.resample('M').mean()
+    return df
+    
+
+
+sp500 = sp500_data()
+US_GDP = gdp_data()
+US_unemployment = us_unemployment()
+
+
 m30 = mortgage_30y()
 print(m30) #it prints the initial of the month instead of HPI_data which prints the end of the months
 
@@ -61,9 +94,20 @@ state_HPI_M30 = HPI_data.join(m30)
 print(state_HPI_M30.corr()) 
 # it shows that the mortgage is a variable in the housing price. it is either an incentive or disincentive to buy a house.
 # 18% over 30 years in the mortgage of the house will not incentive people to buy a house.
-
 print(state_HPI_M30.corr()['M30'].describe())
 # it shows you the mean, std, min, max of the correlation between the mortgage and the housing prices in all states
+
+
+HPI = HPI_data.join([m30, US_unemployment, US_GDP, sp500])
+
+#GDP records only start at yearly 2000 and unemployment rate doesn't have values for the more recent years (for some odd reason)
+# the most recent is until 2011
+HPI.dropna(inplace=True)
+
+print(HPI)
+print(HPI.corr())
+
+HPI.to_pickle('HPI.pickle') 
 
 
 

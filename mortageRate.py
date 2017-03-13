@@ -37,6 +37,8 @@ def HPI_benchmark():
     df = quandl.get(query, authtoken='SujsyC1d6nRqDVehYGxs') #I needed to go to quandl api to get a api_key
     #df.rename(columns={'Value':'USA'}, inplace=True) # to ensure each column has a different name (it gives error without)
     df['Value'] = (df['Value'] - df['Value'][0]) / df['Value'][0] * 100.0
+    df.rename(columns={'Value':'US benchmark'}, inplace=True)
+    df = df['US benchmark']
     return df
 
 def mortgage_30y():
@@ -98,7 +100,7 @@ print(state_HPI_M30.corr()['M30'].describe())
 # it shows you the mean, std, min, max of the correlation between the mortgage and the housing prices in all states
 
 
-HPI = HPI_data.join([m30, US_unemployment, US_GDP, sp500])
+HPI = HPI_data.join([HPI_bench, m30, US_unemployment, US_GDP, sp500])
 
 #GDP records only start at yearly 2000 and unemployment rate doesn't have values for the more recent years (for some odd reason)
 # the most recent is until 2011

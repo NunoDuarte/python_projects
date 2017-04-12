@@ -1,4 +1,5 @@
 import pygame
+import time
 
 pygame.init()
 
@@ -30,6 +31,27 @@ car_width = 73 #we know the width of our image
 def car(x,y):
     gameDisplay.blit(carImg, (x,y)) # x,y is one parameter (a tuple)
 
+def crash():
+    message_display('You have crashed!')
+    
+def message_display(text):
+    largeText = pygame.font.Font('freesansbold.ttf', 100)
+    textSurf, textRect = text_objects(text, largeText)
+    textRect.center = ((display_width/2), (display_height/2))
+    gameDisplay.blit(textSurf, textRect)
+    pygame.display.update()
+    
+    #show for 2 seconds
+    time.sleep(2)
+    #reset the game
+    game_loop()
+    
+def text_objects(text, font):
+    textSurface = font.render(text, True, black) # the text, the anti-aliasing is True, and the color of the text
+    
+    return textSurface, textSurface.get_rect()
+
+
 def game_loop():
     
     x = (display_width * 0.45)
@@ -45,7 +67,7 @@ def game_loop():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 # you've left the game
-                gameExit = True
+                pygame.quit()
                 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
@@ -69,7 +91,7 @@ def game_loop():
         
         if x > display_width - car_width or x < 0:
             #you've crashed
-            gameExit = True
+            crash()
         
     
         pygame.display.update()

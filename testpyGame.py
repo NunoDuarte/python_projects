@@ -1,5 +1,6 @@
 import pygame
 import time
+import random
 
 pygame.init()
 
@@ -27,12 +28,17 @@ clock = pygame.time.Clock()
 carImg = pygame.image.load('racecar.png')
 car_width = 73 #we know the width of our image
 
+def things(thingx, thingy, thingw, thingh, color):
+    pygame.draw.rect(gameDisplay, color, [thingx, thingy, thingw, thingh])
+
 #for displaying the car
 def car(x,y):
     gameDisplay.blit(carImg, (x,y)) # x,y is one parameter (a tuple)
-
-def crash():
-    message_display('You have crashed!')
+    
+def text_objects(text, font):
+    textSurface = font.render(text, True, black) # the text, the anti-aliasing is True, and the color of the text
+    
+    return textSurface, textSurface.get_rect()
     
 def message_display(text):
     largeText = pygame.font.Font('freesansbold.ttf', 100)
@@ -46,11 +52,8 @@ def message_display(text):
     #reset the game
     game_loop()
     
-def text_objects(text, font):
-    textSurface = font.render(text, True, black) # the text, the anti-aliasing is True, and the color of the text
-    
-    return textSurface, textSurface.get_rect()
-
+def crash():
+    message_display('You have crashed!')
 
 def game_loop():
     
@@ -59,6 +62,13 @@ def game_loop():
     
     x_change = 0
     
+    # where do you want the object to start? You don't want to always start at the same position
+    thing_startx = random.randrange(0, display_width)
+    thing_starty = 0 #you want it to start on top of the image
+    thing_speed = 7
+    thing_width = 100
+    thing_height = 100
+     
     #when we start we haven't left the game yet (duh!!)
     gameExit = False
     while not gameExit:
@@ -80,11 +90,14 @@ def game_loop():
                     x_change = 0
                     
         x += x_change
-                    
-                
-                
+ 
         #the background color will now be white
         gameDisplay.fill(white)
+        
+        #things(thingx, thingy, thingw, thingh, color)
+        things(thing_startx, thing_starty, thing_width, thing_height, black)
+        thing_starty += thing_speed # so the object moves down at the specific speed
+        # however, the object continues to move off the screen forever
         
         #put the car in the game
         car(x,y)
@@ -93,6 +106,9 @@ def game_loop():
             #you've crashed
             crash()
         
+        if thing_starty > display_height: #if object disappears off the screen
+            thing_starty = 0 - thing_height # show up the object back on top
+            thing_startx = random.randrange(0, display_width)
     
         pygame.display.update()
         #frame per second #how fast things move

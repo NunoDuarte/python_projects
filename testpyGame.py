@@ -41,7 +41,7 @@ def text_objects(text, font):
     return textSurface, textSurface.get_rect()
     
 def message_display(text):
-    largeText = pygame.font.Font('freesansbold.ttf', 100)
+    largeText = pygame.font.Font('freesansbold.ttf', 115)
     textSurf, textRect = text_objects(text, largeText)
     textRect.center = ((display_width/2), (display_height/2))
     gameDisplay.blit(textSurf, textRect)
@@ -53,7 +53,7 @@ def message_display(text):
     game_loop()
     
 def crash():
-    message_display('You have crashed!')
+    message_display('You crashed!')
 
 def game_loop():
     
@@ -109,6 +109,13 @@ def game_loop():
         if thing_starty > display_height: #if object disappears off the screen
             thing_starty = 0 - thing_height # show up the object back on top
             thing_startx = random.randrange(0, display_width)
+            
+        if y < thing_starty + thing_height:
+            print('y cross over')
+            
+            if x > thing_startx and x < thing_startx + thing_width or x + car_width > thing_startx and x + car_width < thing_startx + thing_width:
+                print('x cross over')
+                crash()
     
         pygame.display.update()
         #frame per second #how fast things move

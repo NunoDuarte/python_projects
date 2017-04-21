@@ -41,6 +41,23 @@ def things(thingx, thingy, thingw, thingh, color):
 def car(x,y):
     gameDisplay.blit(carImg, (x,y)) # x,y is one parameter (a tuple)
     
+def game_intro():
+    
+    intro = True
+    
+    while intro:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+        gameDisplay.fill(white)
+        largeText = pygame.font.Font('freesansbold.ttf', 115)
+        textSurf, textRect = text_objects('A bit racey', largeText)
+        textRect.center = ((display_width/2), (display_height/2))
+        gameDisplay.blit(textSurf, textRect)   
+        pygame.display.update()
+        clock.tick(15)             
+    
 def text_objects(text, font):
     textSurface = font.render(text, True, black) # the text, the anti-aliasing is True, and the color of the text
     
@@ -134,6 +151,8 @@ def game_loop():
         pygame.display.update()
         #frame per second #how fast things move
         clock.tick(60)
+        
+game_intro()
         
 game_loop()
 

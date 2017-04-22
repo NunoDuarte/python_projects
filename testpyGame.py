@@ -55,6 +55,11 @@ def game_intro():
         textSurf, textRect = text_objects('A bit racey', largeText)
         textRect.center = ((display_width/2), (display_height/2))
         gameDisplay.blit(textSurf, textRect)   
+        
+        pygame.draw.rect(gameDisplay, green, (150,450,100,50))
+        pygame.draw.rect(gameDisplay, red, (550,450,100,50))
+
+        
         pygame.display.update()
         clock.tick(15)             
     

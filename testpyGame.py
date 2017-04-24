@@ -68,7 +68,13 @@ def game_intro():
         else:
             pygame.draw.rect(gameDisplay, green, (150,450,100,50))
         #pygame.draw.rect(gameDisplay, green, (150,450,100,50))
-        #pygame.draw.rect(gameDisplay, red, (550,450,100,50))
+        
+        smallText = pygame.font.Font('freesansbold.ttf', 20)
+        textSurf, textRect = text_objects('GO!', smallText)
+        textRect.center = ( (150+(100/2)), (450+(50/2)) ) # center of x and center of y oto put the text on the middle of the rect
+        gameDisplay.blit(textSurf, textRect)
+        
+        pygame.draw.rect(gameDisplay, red, (550,450,100,50))
 
         
         pygame.display.update()

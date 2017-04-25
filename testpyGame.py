@@ -32,6 +32,23 @@ clock = pygame.time.Clock()
 carImg = pygame.image.load('racecar.png')
 car_width = 73 #we know the width of our image
 
+def button(msg, x,y,w,h,ic,ac):
+    #msg - message
+    # x, y, width, height, inactive color, active color
+    mouse = pygame.mouse.get_pos()
+    #print(mouse)
+    # make the button interactive (if your on top of it you make it lighter
+    if x + w > mouse[0] > x and y + 50 > mouse[1] > y:
+        pygame.draw.rect(gameDisplay, ac, (x,y,w,h))
+    else:
+        pygame.draw.rect(gameDisplay, ic, (x,y,w,h))
+    #pygame.draw.rect(gameDisplay, green, (150,450,100,50))
+    
+    smallText = pygame.font.Font('freesansbold.ttf', 20)
+    textSurf, textRect = text_objects(msg, smallText)
+    textRect.center = ( (x+(w/2)), (y+(h/2)) ) # center of x and center of y oto put the text on the middle of the rect
+    gameDisplay.blit(textSurf, textRect)
+
 def things_dodged(count):
     font = pygame.font.SysFont(None, 25)
     text = font.render("Dodged: "+ str(count), True, black)
@@ -59,23 +76,10 @@ def game_intro():
         textRect.center = ((display_width/2), (display_height/2))
         gameDisplay.blit(textSurf, textRect)   
         
+        
         # our two buttons
-        mouse = pygame.mouse.get_pos()
-        #print(mouse)
-        # make the button interactive (if your on top of it you make it lighter
-        if 150 + 100 > mouse[0] > 150 and 450 + 50 > mouse[1] > 450:
-            pygame.draw.rect(gameDisplay, bright_green, (150,450,100,50))
-        else:
-            pygame.draw.rect(gameDisplay, green, (150,450,100,50))
-        #pygame.draw.rect(gameDisplay, green, (150,450,100,50))
-        
-        smallText = pygame.font.Font('freesansbold.ttf', 20)
-        textSurf, textRect = text_objects('GO!', smallText)
-        textRect.center = ( (150+(100/2)), (450+(50/2)) ) # center of x and center of y oto put the text on the middle of the rect
-        gameDisplay.blit(textSurf, textRect)
-        
-        pygame.draw.rect(gameDisplay, red, (550,450,100,50))
-
+        button('GO!', 150,450,100,50, green, bright_green)
+        button('Quit', 550,450,100,50, red, bright_red)
         
         pygame.display.update()
         clock.tick(15)             

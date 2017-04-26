@@ -32,14 +32,28 @@ clock = pygame.time.Clock()
 carImg = pygame.image.load('racecar.png')
 car_width = 73 #we know the width of our image
 
-def button(msg, x,y,w,h,ic,ac):
+    
+def quitgame():
+    pygame.quit()
+    quit()
+    
+def button(msg, x,y,w,h,ic,ac, action=None):
     #msg - message
     # x, y, width, height, inactive color, active color
     mouse = pygame.mouse.get_pos()
-    #print(mouse)
+    click = pygame.mouse.get_pressed()
+    #print(click)
+     
     # make the button interactive (if your on top of it you make it lighter
     if x + w > mouse[0] > x and y + 50 > mouse[1] > y:
         pygame.draw.rect(gameDisplay, ac, (x,y,w,h))
+        if click[0] == 1 and action != None:
+            action() #the button will run any action I want
+#             if action == 'play':
+#                 game_loop()
+#             elif action == 'quit':
+#                 pygame.quit()
+#                 quit()
     else:
         pygame.draw.rect(gameDisplay, ic, (x,y,w,h))
     #pygame.draw.rect(gameDisplay, green, (150,450,100,50))
@@ -78,8 +92,8 @@ def game_intro():
         
         
         # our two buttons
-        button('GO!', 150,450,100,50, green, bright_green)
-        button('Quit', 550,450,100,50, red, bright_red)
+        button('GO!', 150,450,100,50, green, bright_green, game_loop)
+        button('Quit', 550,450,100,50, red, bright_red, quitgame)
         
         pygame.display.update()
         clock.tick(15)             
@@ -129,6 +143,7 @@ def game_loop():
             if event.type == pygame.QUIT:
                 # you've left the game
                 pygame.quit()
+                quit()
                 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
@@ -168,10 +183,10 @@ def game_loop():
             thing_width += 5
             
         if y < thing_starty + thing_height:
-            print('y cross over')
+            #print('y cross over')
             
             if x > thing_startx and x < thing_startx + thing_width or x + car_width > thing_startx and x + car_width < thing_startx + thing_width:
-                print('x cross over')
+                #print('x cross over')
                 crash()
     
         pygame.display.update()

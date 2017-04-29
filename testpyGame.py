@@ -19,6 +19,8 @@ bright_green = (0,255,0)
 
 block_color = (53,115,255)
 
+pause = True
+
 #resolution
 gameDisplay = pygame.display.set_mode((display_width,display_height))
 
@@ -75,6 +77,34 @@ def things(thingx, thingy, thingw, thingh, color):
 def car(x,y):
     gameDisplay.blit(carImg, (x,y)) # x,y is one parameter (a tuple)
     
+
+## functions to pause and unpause the game but keep our score.
+def unpause():
+    global pause
+    pause = False
+    
+def paused():
+    
+    while pause:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+                
+        gameDisplay.fill(white)
+        largeText = pygame.font.Font('freesansbold.ttf', 115)
+        textSurf, textRect = text_objects('Paused', largeText)
+        textRect.center = ((display_width/2), (display_height/2))
+        gameDisplay.blit(textSurf, textRect)   
+        
+        
+        # our two buttons
+        button('Continue', 150,450,100,50, green, bright_green, unpause)
+        button('Quit', 550,450,100,50, red, bright_red, quitgame)
+        
+        pygame.display.update()
+        clock.tick(15) 
+        
 def game_intro():
     
     intro = True
@@ -120,6 +150,7 @@ def crash():
 
 def game_loop():
     
+    global pause
     x = (display_width * 0.45)
     y = (display_height * 0.8)
     
@@ -148,8 +179,11 @@ def game_loop():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
                     x_change = -5
-                elif event.key == pygame.K_RIGHT:
+                if event.key == pygame.K_RIGHT:
                     x_change = 5
+                if event.key == pygame.K_p:
+                    pause = True
+                    paused()
                     
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:

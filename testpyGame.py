@@ -20,6 +20,7 @@ bright_green = (0,255,0)
 block_color = (53,115,255)
 
 pause = True
+#crash = False
 
 #resolution
 gameDisplay = pygame.display.set_mode((display_width,display_height))
@@ -78,25 +79,24 @@ def car(x,y):
     gameDisplay.blit(carImg, (x,y)) # x,y is one parameter (a tuple)
     
 
-## functions to pause and unpause the game but keep our score.
+## functions to pause and unpause the game but keep our score.  
 def unpause():
     global pause
     pause = False
     
 def paused():
     
+    largeText = pygame.font.Font('freesansbold.ttf', 115)
+    textSurf, textRect = text_objects('Paused', largeText)
+    textRect.center = ((display_width/2), (display_height/2))
+    gameDisplay.blit(textSurf, textRect) 
     while pause:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
                 
-        gameDisplay.fill(white)
-        largeText = pygame.font.Font('freesansbold.ttf', 115)
-        textSurf, textRect = text_objects('Paused', largeText)
-        textRect.center = ((display_width/2), (display_height/2))
-        gameDisplay.blit(textSurf, textRect)   
-        
+        #gameDisplay.fill(white)
         
         # our two buttons
         button('Continue', 150,450,100,50, green, bright_green, unpause)
@@ -146,7 +146,26 @@ def message_display(text):
     game_loop()
     
 def crash():
-    message_display('You crashed!')
+    
+    largeText = pygame.font.Font('freesansbold.ttf', 115)
+    textSurf, textRect = text_objects('You Crashed', largeText)
+    textRect.center = ((display_width/2), (display_height/2))
+    gameDisplay.blit(textSurf, textRect) 
+    
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+                
+        #gameDisplay.fill(white)
+        
+        # our two buttons
+        button('Play Again', 150,450,100,50, green, bright_green, game_loop)
+        button('Quit', 550,450,100,50, red, bright_red, quitgame)
+        
+        pygame.display.update()
+        clock.tick(15) 
 
 def game_loop():
     

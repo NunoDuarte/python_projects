@@ -31,10 +31,11 @@ pygame.display.set_caption('A bit Racey')
 #imposes the time to everything in the game
 clock = pygame.time.Clock()
 
-
 carImg = pygame.image.load('racecar.png')
 car_width = 73 #we know the width of our image
 
+# to show the game icon in the app game
+pygame.display.set_icon(carImg)
     
 def quitgame():
     pygame.quit()

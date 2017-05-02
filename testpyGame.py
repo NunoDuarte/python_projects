@@ -134,17 +134,17 @@ def text_objects(text, font):
     
     return textSurface, textSurface.get_rect()
     
-def message_display(text):
-    largeText = pygame.font.Font('freesansbold.ttf', 115)
-    textSurf, textRect = text_objects(text, largeText)
-    textRect.center = ((display_width/2), (display_height/2))
-    gameDisplay.blit(textSurf, textRect)
-    pygame.display.update()
-    
-    #show for 2 seconds
-    time.sleep(2)
-    #reset the game
-    game_loop()
+# def message_display(text):
+#     largeText = pygame.font.Font('freesansbold.ttf', 115)
+#     textSurf, textRect = text_objects(text, largeText)
+#     textRect.center = ((display_width/2), (display_height/2))
+#     gameDisplay.blit(textSurf, textRect)
+#     pygame.display.update()
+#     
+#     #show for 2 seconds
+#     time.sleep(2)
+#     #reset the game
+#     game_loop()
     
 def crash():
     

@@ -4,6 +4,9 @@ import random
 
 pygame.init()
 
+crash_sound = pygame.mixer.Sound('Crash.wav')
+pygame.mixer.music.load('8bit_Dungeon_Boss_Video_Classica.wav')
+
 display_width = 800
 display_height = 600
 
@@ -148,6 +151,9 @@ def text_objects(text, font):
     
 def crash():
     
+    pygame.mixer.music.stop()
+    pygame.mixer.Sound.play(crash_sound)
+    
     largeText = pygame.font.Font('freesansbold.ttf', 115)
     textSurf, textRect = text_objects('You Crashed', largeText)
     textRect.center = ((display_width/2), (display_height/2))
@@ -171,6 +177,9 @@ def crash():
 def game_loop():
     
     global pause
+    
+    # play the game in a infinite loop (-1) once (1) two times (2)
+    pygame.mixer.music.play(-1)
     x = (display_width * 0.45)
     y = (display_height * 0.8)
     

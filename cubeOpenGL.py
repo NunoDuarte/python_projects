@@ -6,6 +6,7 @@ from pygame.locals import *
 from OpenGL.GL import *
 from OpenGL.GLU import *
 
+# the order is important! (for all vertices)
 vertices = (
     (1, -1, -1),
     (1, 1, -1),
@@ -32,8 +33,45 @@ edges = (
     (5, 7), 
     )
 
+surfaces = (
+    (0,1,2,3),
+    (3,2,7,6),
+    (6,7,5,4),
+    (4,5,1,0),
+    (1,5,7,2),
+    (4,0,3,6)            
+    )
+
+colors = (
+    (1,0,0),
+    (0,1,0),
+    (0,0,1),
+    (0,0,0),
+    (1,1,1),
+    (0,1,1),
+    (1,0,0),
+    (0,1,0),
+    (0,0,1),
+    (0,0,0),
+    (1,1,1),
+    (0,1,1), 
+    )
 
 def Cube():
+    
+    glBegin(GL_QUADS)
+    x = 0
+    glColor3fv((0,1,0)) #putting here (it is a constant color)
+    for surface in surfaces:
+        x+=1
+        glColor3fv(colors[x]) #putting here (it is a constant for each surface)
+        for vertex in surface:
+            glVertex3fv(vertices[vertex])
+            #glColor3fv(colors[x]) #putting here (it is a constant for each vertex)
+            
+    glEnd()
+    
+    
     glBegin(GL_LINES)
     for edge in edges:
         for vertex in edge:
@@ -50,8 +88,11 @@ def main():
     gluPerspective(45, (display[0]/display[1]), 0.1, 50.0)
     
     # -5 is the zoom at which we are looking at (0 -  would mean that we would be viewing right in your face)
-    glTranslatef(0.0, 0.0, -5)
+    # x is to shift to the x
+    # y is to shift to the y direction
+    glTranslatef(0.0, 0.0, -5) # relation to our object
     
+    # rotate the cube (x,y,z, theta)
     glRotate(0, 0, 0, 0)
     
     while True:

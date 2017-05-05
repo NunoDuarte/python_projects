@@ -85,6 +85,9 @@ def main():
     pygame.display.set_mode(display, DOUBLEBUF|OPENGL)
     
     # 45 degree field of view
+    # For how long do we want to show the cube? show your limits of the clipping plane
+    # 0.1 is the closest clipping plane (0.1 units out of our view)
+    # 50 is the furthest clipping plane (50 units out of our view) 
     gluPerspective(45, (display[0]/display[1]), 0.1, 50.0)
     
     # -5 is the zoom at which we are looking at (0 -  would mean that we would be viewing right in your face)
@@ -93,19 +96,40 @@ def main():
     glTranslatef(0.0, 0.0, -5) # relation to our object
     
     # rotate the cube (x,y,z, theta)
-    glRotate(0, 0, 0, 0)
+    glRotate(25, 4, 1, 0)
     
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
+                
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_LEFT:
+                    glTranslatef(-0.5, 0, 0)
+                if event.key == pygame.K_RIGHT:
+                    glTranslatef(0.5, 0, 0)
+                if event.key == pygame.K_UP:
+                    glTranslatef(0, 0.5, 0)
+                if event.key == pygame.K_DOWN:
+                    glTranslatef(0, -0.5, 0)
+                    
+            # mouse wheel
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                # the wheel is moving upwards (but this zooms in)
+                if event.button == 4:
+                    glTranslatef(0, 0, 0.5)
+                # the wheel is moving downwards (but this zooms out)
+                if event.button == 5:
+                    glTranslatef(0, 0, -0.5)    
+                    # however there is a limit to how much you can move out. this is called the clipping plane
+            
         # to rotate the cube
         # 1 degree
         # x = 3
         # y = 1
         # z = 1
-        glRotate(1, 3, 1, 1)        
+        #glRotate(1, 3, 1, 1)        
                 
         # you need to clear between each frame (just like in pygame)
         # we are telling openGL what exactly we want to clear

@@ -1,4 +1,5 @@
 import pygame
+import random
 # import everything
 from pygame.locals import *
 
@@ -86,10 +87,13 @@ def main():
     
     gluPerspective(45, (display[0]/display[1]), 0.1, 50.0)
     
-    glTranslatef(0.0, 0.0, -40) # relation to our object
+    glTranslatef(random.randrange(-5,5), random.randrange(-5,5), -40) # relation to our object
     
     # rotate the cube (x,y,z, theta)
     #glRotate(25, 4, 1, 0)
+    
+    x_move = 0
+    y_move = 0
     
     object_passed = False
     
@@ -101,13 +105,19 @@ def main():
                 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
-                    glTranslatef(0.5, 0, 0)
+                    x_move = 0.3
                 if event.key == pygame.K_RIGHT:
-                    glTranslatef(-0.5, 0, 0)
+                    x_move = -0.3
                 if event.key == pygame.K_UP:
-                    glTranslatef(0, -0.5, 0)
+                    y_move = -0.3
                 if event.key == pygame.K_DOWN:
-                    glTranslatef(0, 0.5, 0)
+                    y_move = 0.3
+                    
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_LEFT or  event.key == pygame.K_RIGHT:
+                    x_move = 0
+                if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
+                    y_move = 0
 
         x = glGetDoublev(GL_MODELVIEW_MATRIX)
         print(x)
@@ -121,7 +131,7 @@ def main():
             object_passed = True
 
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
-        glTranslatef(0,0,0.5)
+        glTranslatef(x_move, y_move,0.5)
 
         Cube()
         pygame.display.flip()     

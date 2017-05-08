@@ -58,7 +58,32 @@ colors = (
     (0,1,1), 
     )
 
-def Cube():
+# set vertices for every cube
+def set_vertices(max_distance):
+    x_value_change = random.randrange(-10,10)
+    y_value_change = random.randrange(-10,10)
+    z_value_change = random.randrange(-1*max_distance,-20)
+    
+    new_vertices = []
+    
+    for vert in vertices:
+        new_vert = []
+        
+        # get new values for a new cube
+        new_x = vert[0] + x_value_change
+        new_y = vert[1] + y_value_change
+        new_z = vert[2] + z_value_change
+        
+        new_vert.append(new_x)
+        new_vert.append(new_y)
+        new_vert.append(new_z)
+        
+        new_vertices.append(new_vert)
+        
+    return new_vertices        
+
+
+def Cube(vertices):
     
     glBegin(GL_QUADS)
     x = 0
@@ -95,9 +120,14 @@ def main():
     x_move = 0
     y_move = 0
     
-    object_passed = False
+    max_distance = 300
+    cube_dict = {}
     
-    while not object_passed:
+    for x in range(75):
+        cube_dict[x] = set_vertices(max_distance)
+    
+    
+    while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -126,19 +156,18 @@ def main():
         camera_y = x[3][1]
         camera_x = x[3][0]
         
-        # if the object passed our screen then we have avoided it
-        if camera_z < -1:
-            object_passed = True
 
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
         glTranslatef(x_move, y_move,0.5)
 
-        Cube()
+        for each_cube in cube_dict:
+            Cube(cube_dict[each_cube])
+
         pygame.display.flip()     
         pygame.time.wait(10)
         
-for x in range(10):        
-    main()
+      
+main()
 pygame.quit()
 quit()                
                 

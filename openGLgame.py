@@ -58,6 +58,25 @@ colors = (
     (0,1,1), 
     )
 
+# adding a ground is very similar to adding a cube
+ground_vertices = (
+    (-10, -1.1, 20),
+    (10, -1.1, 20),
+    (-10, -1.1, -300),
+    (10, -1.1, -300),
+    )
+
+# just adding some vertices to make a boundary of some width but infinite length
+def ground():
+    glBegin(GL_QUADS)
+    
+    for vertex in ground_vertices:
+        glColor3fv((0,0.5,0.5))
+        glVertex3fv(vertex)
+        
+    glEnd()
+
+
 # set vertices for every cube
 def set_vertices(max_distance):
     x_value_change = random.randrange(-10,10)
@@ -159,6 +178,8 @@ def main():
 
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
         glTranslatef(x_move, y_move,0.5)
+        
+        ground()
 
         for each_cube in cube_dict:
             Cube(cube_dict[each_cube])

@@ -129,7 +129,9 @@ def main():
     # specifying DOUBLEBUFF double buffer and openGL 
     pygame.display.set_mode(display, DOUBLEBUF|OPENGL)
     
-    gluPerspective(45, (display[0]/display[1]), 0.1, 50.0)
+    max_distance = 100
+    
+    gluPerspective(45, (display[0]/display[1]), 0.1, max_distance)
     
     glTranslatef(random.randrange(-5,5), random.randrange(-5,5), -40) # relation to our object
     
@@ -139,7 +141,6 @@ def main():
     x_move = 0
     y_move = 0
     
-    max_distance = 300
     cube_dict = {}
     
     for x in range(75):
@@ -169,7 +170,7 @@ def main():
                     y_move = 0
 
         x = glGetDoublev(GL_MODELVIEW_MATRIX)
-        print(x)
+        #print(x)
         
         camera_z = x[3][2] # new z position (it is the position that will be printed and it can't be avoided)
         camera_y = x[3][1]
@@ -183,6 +184,17 @@ def main():
 
         for each_cube in cube_dict:
             Cube(cube_dict[each_cube])
+
+        delete_list = []
+        
+        for each_cube in cube_dict:
+            if camera_z <= cube_dict[each_cube][0][2]:
+                print('passed cube')
+                delete_list.append(each_cube)
+                new_max = int(-1*(camera_z-max_distance))
+                
+                cube_dict[each_cube] = set_vertices(new_max)
+                
 
         pygame.display.flip()     
         pygame.time.wait(10)

@@ -23,7 +23,7 @@ def label_img(img):
     # [-1] = png
     # [-2] = 93
     # [-3] = dog
-    word_label = img.split('.', [-3])
+    word_label = img.split('.')[-3]
     if word_label == 'cat': return [1, 0]
     elif word_label == 'dog': return [0, 1]
     
@@ -38,6 +38,21 @@ def create_train_data():
     shuffle(training_data)
     np.save('train_data.npy', training_data)
     return training_data
+
+def process_test_data():
+    testing_data = []
+    for img in tqdm(os.listdir(TEST_DIR)):
+        path = os.path.join(TEST_DIR, img)
+        img_num = img.split('.')[-2]
+        img = cv2.resize(cv2.imread(path, cv2.IMREAD_GRAYSCALE), (IMG_SIZE, IMG_SIZE))
+        testing_data.append([np.array(img), img_num])               
+    np.save('test_data.npy', testing_data)
+    return testing_data
+
+train_data = create_train_data()
+# if you already trained data
+train_data = np.load('train_data.npy')
+    
 
 
 

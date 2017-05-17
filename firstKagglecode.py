@@ -14,7 +14,7 @@ IMG_SIZE = 50 # 50by50
 # however not all pictures are 50by5o so we are going to resize them
 LR = 1e-3 # Learning Rate
 
-MODEL_NAME = 'dogsvscats-{}-{}.model'.format(LR, '2conv-basic')
+MODEL_NAME = 'dogsvscats-{}-{}.model'.format(LR, '2conv-basic-video')
 
 #[catness, dogness] = [1, 0], [0, 1]
 def label_img(img):
@@ -50,8 +50,7 @@ def process_test_data():
     return testing_data
 
 train_data = create_train_data()
-# if you already trained data
-train_data = np.load('train_data.npy')
+
     
 
 

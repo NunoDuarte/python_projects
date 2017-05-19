@@ -9,7 +9,7 @@ from random import shuffle
 from tqdm import tqdm
 
 TRAIN_DIR = '/Users/Nuno/Downloads/train'
-TEST_DIR = '/Users/Nuno/Downloads/test'
+TEST_DIR = '/Users/Nuno/Downloads/test1'
 IMG_SIZE = 50 # 50by50
 # however not all pictures are 50by5o so we are going to resize them
 LR = 1e-3 # Learning Rate

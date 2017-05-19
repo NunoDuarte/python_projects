@@ -10,7 +10,7 @@ tf.reset_default_graph()
 
 IMG_SIZE = 50 # 50by50
 LR = 1e-3 # Learning Rate
-MODEL_NAME = 'dogsvscats-{}-{}.model'.format(LR, '2conv-basic-video')
+MODEL_NAME = 'dogsvscats-{}-{}.model'.format(LR, '6conv-basic-video')
 
 # if you already trained data
 train_data = np.load('train_data.npy')
@@ -22,16 +22,16 @@ convnet = max_pool_2d(convnet, 2)
 
 convnet = conv_2d(convnet, 64, 2, activation='relu')
 convnet = max_pool_2d(convnet, 2)
-
+ 
 convnet = conv_2d(convnet, 32, 2, activation='relu')
 convnet = max_pool_2d(convnet, 2)
-
+ 
 convnet = conv_2d(convnet, 64, 2, activation='relu')
 convnet = max_pool_2d(convnet, 2)
-
+ 
 convnet = conv_2d(convnet, 32, 2, activation='relu')
 convnet = max_pool_2d(convnet, 2)
-
+ 
 convnet = conv_2d(convnet, 64, 2, activation='relu')
 convnet = max_pool_2d(convnet, 2)
 
@@ -46,6 +46,8 @@ model = tflearn.DNN(convnet, tensorboard_dir='log')
 if os.path.exists('{}.meta'.format(MODEL_NAME)):
     model.load(MODEL_NAME)
     print('model loaded!')
+
+model.save('dogsvscats-{}-{}.tfl'.format(LR, '6conv-basic-video'))
     
 train = train_data[:-500] #everything but last 500 images
 test = train_data[-500:] #last 500 images
@@ -60,6 +62,4 @@ model.fit({'input': X}, {'targets': Y}, n_epoch=5, validation_set=({'input': tes
     snapshot_step=500, show_metric=True, run_id=MODEL_NAME)
 
 # run this: tensorboard --logdir=foo:/Users/Nuno/Documents/workspace/KaggleCatsDogs/log
-
-
 

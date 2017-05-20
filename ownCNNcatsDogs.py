@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 #from firstKagglecode import process_test_data #this will make it run process_test_data every time you run the program
-from catsDogsCNN import model # this will make you train the model every time you run the program
+import catsDogsCNN.model as model # this will make you train the model every time you run the program
 
 # if you dont have this file yet
 #test_data = process_test_data()

@@ -1,6 +1,7 @@
 import dicom # read dicom files
 import os # do directory operations
 import pandas as pd # nice for data analysis
+# needed to change the python version
 
 data_dir = '/Volumes/LaCie02/NUNO/stage1/'
 patients = os.listdir(data_dir)

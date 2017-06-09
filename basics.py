@@ -6,7 +6,19 @@ from PIL import Image
 
 def createExamples():
     numberArrayExamples = open('numArEx.txt', 'a')
-    numbersWeHave = range(1,10)
+    numbersWeHave = range(0,10)
+    versionsWeHave = range(1,10)
+    
+    for eachNum in numbersWeHave:
+        for eachVer in versionsWeHave:
+            print( str(eachNum) + '.' + str(eachVer))
+            imgFilePath = 'images/numbers/' + str(eachNum) + '.' + str(eachVer) + '.png'
+            ei = Image.open(imgFilePath)
+            eiar = np.array(ei)
+            eiar1 = str(eiar.tolist())
+            
+            lineToWrite = str(eachNum) + '::' + eiar1 + '\n'
+            numberArrayExamples.write(lineToWrite)
 
 def threshold(imageArray):
     balanceAr = []
@@ -28,8 +40,9 @@ i3 = Image.open('images/numbers/y0.5.png')
 iar3 = np.array(i3)          
 
 i4 = Image.open('images/sentdex.png')
-iar4 = np.array(i4)          
-
+iar4 = np.array(i4)     
+  
+createExamples()
 # fig = plt.figure()
 # ax1 = plt.subplot2grid((8,6), (0,0), rowspan=4, colspan=3)
 # ax2 = plt.subplot2grid((8,6), (4,0), rowspan=4, colspan=3)

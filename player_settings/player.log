@@ -1,0 +1,44 @@
+Player: 2017-06-14 17:26:08,346 - __main__ - WARNING - You did not supply a data directory when you called this script!
+Player: 2017-06-14 17:26:09,136 - player_methods - ERROR - No valid dir supplied
+Player: 2017-06-14 17:26:09,136 - file_methods - DEBUG - Session settings file '/home/nuno/pupil/pupil-cc7a0840c1f322ef2193a1b0c473bbbe490e124c/player_settings/user_settings' not found. Will make new one on exit.
+Player: 2017-06-14 17:26:09,144 - version_utils - DEBUG - Running version: 0.9.12.9
+Player: 2017-06-14 17:26:09,144 - __main__ - INFO - Session setting are from older version of this app. I will not use those.
+Player: 2017-06-14 17:26:19,363 - __main__ - DEBUG - Starting new session with '/home/nuno/pupil/pupil-cc7a0840c1f322ef2193a1b0c473bbbe490e124c/recordings/2017_06_14/000'
+Player: 2017-06-14 17:26:19,372 - version_utils - DEBUG - Running version: 0.9.12.9
+Player: 2017-06-14 17:26:19,374 - player_methods - INFO - Updating meta info
+Player: 2017-06-14 17:26:19,375 - version_utils - DEBUG - Recording version: 0.9.12.9
+Player: 2017-06-14 17:26:19,383 - version_utils - DEBUG - Running version: 0.9.12.9
+Player: 2017-06-14 17:26:19,383 - __main__ - INFO - Application Version: 0.9.12.9
+Player: 2017-06-14 17:26:19,383 - __main__ - INFO - System Info: User: root, Platform: Linux, Machine: nuno, Release: 4.8.0-54-generic, Version: #57~16.04.1-Ubuntu SMP Wed May 24 16:22:28 UTC 2017
+Player: 2017-06-14 17:26:19,390 - video_capture.file_backend - DEBUG - loaded videostream: <av.VideoStream #0 mjpeg, yuvj422p 1280x720 at 0x7f7468271f20>
+Player: 2017-06-14 17:26:19,391 - video_capture.file_backend - DEBUG - No audiostream found in media container
+Player: 2017-06-14 17:26:19,391 - video_capture.file_backend - DEBUG - using timestamps from list
+Player: 2017-06-14 17:26:19,398 - version_utils - DEBUG - Running version: 0.9.12.9
+Player: 2017-06-14 17:26:19,724 - plugin - DEBUG - Loading plugin: Trim_Marks with settings {}
+Player: 2017-06-14 17:26:19,725 - plugin - INFO - Loaded: Trim_Marks
+Player: 2017-06-14 17:26:19,725 - plugin - DEBUG - Loading plugin: Seek_Bar with settings {}
+Player: 2017-06-14 17:26:19,725 - plugin - INFO - Loaded: Seek_Bar
+Player: 2017-06-14 17:26:19,725 - plugin - DEBUG - Loading plugin: Log_Display with settings {}
+Player: 2017-06-14 17:26:19,726 - plugin - INFO - Loaded: Log_Display
+Player: 2017-06-14 17:26:19,726 - plugin - DEBUG - Loading plugin: Vis_Scan_Path with settings {}
+Player: 2017-06-14 17:26:19,726 - plugin - INFO - Loaded: Vis_Scan_Path
+Player: 2017-06-14 17:26:19,726 - plugin - DEBUG - Loading plugin: Vis_Polyline with settings {}
+Player: 2017-06-14 17:26:19,726 - plugin - INFO - Loaded: Vis_Polyline
+Player: 2017-06-14 17:26:19,726 - plugin - DEBUG - Loading plugin: Vis_Circle with settings {}
+Player: 2017-06-14 17:26:19,727 - plugin - INFO - Loaded: Vis_Circle
+Player: 2017-06-14 17:26:19,727 - plugin - DEBUG - Loading plugin: Video_Export_Launcher with settings {}
+Player: 2017-06-14 17:26:19,727 - plugin - INFO - Loaded: Video_Export_Launcher
+Player: 2017-06-14 17:26:19,741 - plugin - WARNING - Trim_Marks: Update will be deprecated soon. Use 'recent_events instead.'
+Player: 2017-06-14 17:26:19,741 - plugin - WARNING - Seek_Bar: Update will be deprecated soon. Use 'recent_events instead.'
+Player: 2017-06-14 17:26:19,741 - plugin - WARNING - Video_Export_Launcher: Update will be deprecated soon. Use 'recent_events instead.'
+Player: 2017-06-14 17:26:19,741 - plugin - WARNING - Vis_Scan_Path: Update will be deprecated soon. Use 'recent_events instead.'
+Player: 2017-06-14 17:26:19,746 - plugin - WARNING - Vis_Polyline: Update will be deprecated soon. Use 'recent_events instead.'
+Player: 2017-06-14 17:26:19,746 - plugin - WARNING - Vis_Circle: Update will be deprecated soon. Use 'recent_events instead.'
+Player: 2017-06-14 17:27:09,099 - __main__ - WARNING - end of video
+Player: 2017-06-14 17:27:11,752 - plugin - DEBUG - Unloaded Plugin: <log_display.Log_Display object at 0x7f74613aa908>
+Player: 2017-06-14 17:27:11,752 - plugin - DEBUG - Unloaded Plugin: <trim_marks.Trim_Marks object at 0x7f74613aa898>
+Player: 2017-06-14 17:27:11,752 - plugin - DEBUG - Unloaded Plugin: <seek_bar.Seek_Bar object at 0x7f74613aa8d0>
+Player: 2017-06-14 17:27:11,752 - plugin - DEBUG - Unloaded Plugin: <video_export_launcher.Video_Export_Launcher object at 0x7f74613aabe0>
+Player: 2017-06-14 17:27:11,752 - plugin - DEBUG - Unloaded Plugin: <vis_scan_path.Vis_Scan_Path object at 0x7f74613aa9e8>
+Player: 2017-06-14 17:27:11,752 - plugin - DEBUG - Unloaded Plugin: <vis_polyline.Vis_Polyline object at 0x7f74613aaa90>
+Player: 2017-06-14 17:27:11,752 - plugin - DEBUG - Unloaded Plugin: <vis_circle.Vis_Circle object at 0x7f74613aab38>

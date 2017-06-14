@@ -1,0 +1,41 @@
+2017-06-14 17:21:31,558 - MainProcess - [INFO] os_utils: Disabling idle sleep not supported on this OS version.
+2017-06-14 17:21:31,974 - world - [INFO] world: Application Version: 0.9.12.9
+2017-06-14 17:21:31,974 - world - [INFO] world: System Info: User: root, Platform: Linux, Machine: nuno, Release: 4.8.0-54-generic, Version: #57~16.04.1-Ubuntu SMP Wed May 24 16:22:28 UTC 2017
+2017-06-14 17:21:31,975 - world - [INFO] pupil_detectors.build: Building extention modules...
+2017-06-14 17:21:32,422 - world - [INFO] calibration_routines.optimization_calibration.build: Building extention modules...
+2017-06-14 17:21:34,992 - world - [INFO] plugin: Loaded: UVC_Source
+2017-06-14 17:21:34,992 - world - [INFO] plugin: Loaded: Pupil_Data_Relay
+2017-06-14 17:21:34,995 - world - [INFO] plugin: Loaded: Pupil_Remote
+2017-06-14 17:21:34,995 - world - [INFO] plugin: Loaded: Dummy_Gaze_Mapper
+2017-06-14 17:21:34,995 - world - [INFO] plugin: Loaded: Fixation_Detector_3D
+2017-06-14 17:21:34,996 - world - [INFO] plugin: Loaded: Log_Display
+2017-06-14 17:21:35,043 - world - [INFO] plugin: Loaded: UVC_Manager
+2017-06-14 17:21:35,044 - world - [INFO] plugin: Loaded: Screen_Marker_Calibration
+2017-06-14 17:21:35,044 - world - [INFO] plugin: Loaded: Display_Recent_Gaze
+2017-06-14 17:21:35,074 - world - [INFO] plugin: Loaded: Recorder
+2017-06-14 17:21:35,077 - world - [WARNING] world: Process started.
+2017-06-14 17:21:35,246 - world - [WARNING] plugin: Pupil_Remote: Update will be deprecated soon. Use 'recent_events instead.'
+2017-06-14 17:21:35,246 - world - [WARNING] plugin: Dummy_Gaze_Mapper: Update will be deprecated soon. Use 'recent_events instead.'
+2017-06-14 17:21:35,246 - world - [WARNING] plugin: Fixation_Detector_3D: Update will be deprecated soon. Use 'recent_events instead.'
+2017-06-14 17:21:36,175 - eye0 - [INFO] pupil_detectors.build: Building extention modules...
+2017-06-14 17:21:36,434 - eye1 - [INFO] pupil_detectors.build: Building extention modules...
+2017-06-14 17:21:38,560 - eye1 - [WARNING] eye: Process started.
+2017-06-14 17:21:38,567 - eye0 - [WARNING] eye: Process started.
+2017-06-14 17:22:19,042 - world - [INFO] calibration_routines.screen_marker_calibration: Starting Calibration
+2017-06-14 17:22:27,183 - world - [INFO] calibration_routines.screen_marker_calibration: Stopping Calibration
+2017-06-14 17:22:27,594 - world - [INFO] calibration_routines.camera_intrinsics_estimation: Loaded pre recorded calibration for Pupil Cam1 ID2@(1280, 720).
+2017-06-14 17:22:27,597 - world - [INFO] calibration_routines.finish_calibration: Collected 39 monocular calibration data.
+2017-06-14 17:22:27,598 - world - [INFO] calibration_routines.finish_calibration: Collected 23 binocular calibration data.
+2017-06-14 17:22:27,942 - world - [INFO] plugin: Loaded: Binocular_Vector_Gaze_Mapper
+2017-06-14 17:22:27,992 - world - [WARNING] plugin: Binocular_Vector_Gaze_Mapper: Update will be deprecated soon. Use 'recent_events instead.'
+2017-06-14 17:22:51,181 - world - [INFO] recorder: Started Recording.
+2017-06-14 17:23:35,738 - world - [INFO] recorder: No surface_definitions data found. You may want this if you do marker tracking.
+2017-06-14 17:23:35,738 - world - [INFO] calibration_routines.camera_intrinsics_estimation: Loaded pre recorded calibration for Pupil Cam1 ID2@(1280, 720).
+2017-06-14 17:23:35,778 - world - [INFO] recorder: Saved Recording.
+2017-06-14 17:23:35,778 - world - [INFO] recorder: Recording already stopped!
+2017-06-14 17:27:16,932 - world - [ERROR] uvc: Can't stop stream: Error:'Operation timed out.'. Will ignore this and try to continue.
+2017-06-14 17:27:17,159 - world - [INFO] world: Process shutting down.
+2017-06-14 17:27:18,557 - eye0 - [ERROR] uvc: Can't stop stream: Error:'Operation timed out.'. Will ignore this and try to continue.
+2017-06-14 17:27:18,578 - eye1 - [ERROR] uvc: Can't stop stream: Error:'Operation timed out.'. Will ignore this and try to continue.
+2017-06-14 17:27:18,765 - eye0 - [INFO] eye: Process shutting down.
+2017-06-14 17:27:18,774 - eye1 - [INFO] eye: Process shutting down.

@@ -48,7 +48,7 @@ def pupil_version():
     '''
     [major].[minor].[rev].[trailing-untagged-commits]
     '''
-    version = get_tag_commit().decode('utf-8')
+    version = 'v0.9.12-9-gcb61e54' #I changed this! get_tag_commit().decode('utf-8')
     # print(version)
     if version is None:
         raise ValueError('Version Error')

@@ -24,7 +24,7 @@ for patient in patients[:10]:
     
 IMG_PX_SLICE = 150
 
-for patients in patients[:2]:
+for patient in patients[:2]:
     label = labels_df.get_value(patient, 'cancer')
     path = data_dir + patient
     slices = [dicom.read_file(path + '/' + s) for s in os.listdir(path)]
@@ -36,5 +36,47 @@ for patients in patients[:2]:
         new_image = cv2.resize(np.array(each_slice.pixel_array), (IMG_PX_SLICE, IMG_PX_SLICE))
         y.imshow(new_image)
     plt.show()
+    
+
+import math    
+
+HM_SLICES = 20
+
+def chunks(l,n):
+    '''Yield successive n-sized chunks from l'''
+    for i in range(0, len(l), n):
+        yield l[i:1 + n]
+        
+def mean(l):
+    return sum(l)/len(l)
+
+for patient in patients[:10]:
+    label = labels_df.get_value(patient, 'cancer')
+    path = data_dir + patient
+    slices = [dicom.read_file(path + '/' + s) for s in os.listdir(path)]
+    slices.sort(key = lambda x: int(x.ImagePositionPatient[2]))
+    
+    new_slices = []
+    
+    slices = [cv2.resize(np.array(each_slice.pixel_array), (IMG_PX_SLICE, IMG_PX_SLICE)) for each_slice in slices]
+    
+    chunk_sizes = math.ceil(len(slices) / HM_SLICES)
+    
+    for slice_chunk in chunks(slices, chunk_sizes):
+        slice_chunk = list(map(mean, zip(*slice_chunk)))
+        new_slices.append(slice_chunk)
+        
+    print(len(new_slices))
+    
+    if len(new_slices) == HM_SLICES-1:
+        new_slices.append(new_slices[-1]) 
+        new_slices.append(new_slices[-1]) #if it is not -1 but -2
+        
+    if len(new_slices) == HM_SLICES+2:
+        new_val = list(map(mean, zip(*[new_slices[HM_SLICES-1], new_slices[HM_SLICES]])))
+        del new_slices[HM_SLICES]
+        new_slices[HM_SLICES-1] = new_val
+        
+                                       
     
     

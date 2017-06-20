@@ -166,12 +166,12 @@ if __name__ == '__main__':
 
     # the requester talks to Pupil remote and
     # recevied the session unique IPC SUB URL
-    requester = ctx.socket(zmq.REQ)
-    requester.connect('tcp://127.0.0.1:50020')
+    requester = ctx.socket(zmq.REQ) 
+    requester.connect('tcp://10.0.21.96:50020') #127.0.0.1:50020
 
-    requester.send('SUB_PORT')
+    requester.send_string('SUB_PORT')
     ipc_sub_port = requester.recv()
-    requester.send('PUB_PORT')
+    requester.send_string('PUB_PORT')
     ipc_pub_port = requester.recv()
 
     print('ipc_sub_port:', ipc_sub_port)
@@ -179,20 +179,20 @@ if __name__ == '__main__':
 
     # more topics: gaze, pupil, logging, ...
     log_monitor = Msg_Receiver(
-        ctx, 'tcp://127.0.0.1:{}'.format(ipc_sub_port),
+        ctx, 'tcp://10.0.21.96:{}'.format(ipc_sub_port),
         topics=('logging.',))
     notification_monitor = Msg_Receiver(
         ctx,
-        'tcp://127.0.0.1:{}'.format(ipc_sub_port),
+        'tcp://10.0.21.96:{}'.format(ipc_sub_port),
         topics=('notify.',))
     monitor = Msg_Receiver(
-        ctx, 'tcp://127.0.0.1:{}'.format(ipc_sub_port),
+        ctx, 'tcp://10.0.21.96:{}'.format(ipc_sub_port),
         topics=('pingback_test.3',))
     # gaze_monitor = Msg_Receiver(ctx,'tcp://
     # localhost:%s'%ipc_sub_port,topics=('gaze.',))
 
     # you can also publish to the IPC Backbone directly.
-    publisher = Msg_Streamer(ctx, 'tcp://127.0.0.1:{}'.format(ipc_pub_port))
+    publisher = Msg_Streamer(ctx, 'tcp://10.0.21.96:{}'.format(ipc_pub_port))
     sleep(1)
 
     def roundtrip_latency_reqrep():

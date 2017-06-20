@@ -41,7 +41,7 @@ plugin_dir = os.path.join(user_dir,'plugins')
 if not os.path.isdir(plugin_dir):
     os.mkdir(plugin_dir)
 
-#app version
+# app version
 from version_utils import get_version
 app_version = get_version(version_file)
 

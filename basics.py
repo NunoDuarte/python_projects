@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import PIL
 import time
 from PIL import Image
+from collections import Counter
 
 def createExamples():
     numberArrayExamples = open('numArEx.txt', 'a')
@@ -29,20 +30,60 @@ def threshold(imageArray):
             print (eachPix) 
             
             time.sleep(5)
+       
+def whatNumIsThis(filepath):
+    matchedAr = []
+    loadExamps = open('numArEx.txt', 'r').read()
+    loadExamps = loadExamps.split('\n')
+    
+    i = Image.open(filepath)
+    iar = np.array(i)
+    iarl = iar.tolist()
+    
+    inQuestion = str(iarl)
+    
+    for eachExample in loadExamps:
+        if len(eachExample) > 3:
+            splitEx = eachExample.split('::')
+            currentNum = splitEx[0]
+            currentAr = splitEx[1]
             
-i1 = Image.open('images/numbers/0.1.png')
-iar1 = np.array(i1)       
-
-i2 = Image.open('images/numbers/y0.4.png')
-iar2 = np.array(i2)  
-        
-i3 = Image.open('images/numbers/y0.5.png')
-iar3 = np.array(i3)          
-
-i4 = Image.open('images/sentdex.png')
-iar4 = np.array(i4)     
+            # each pixel in the example
+            eachPixEx = currentAr.split('],')
+            
+            #each pixel in question
+            eachPixInQ = inQuestion.split('],')
+            
+            x = 0
+            while x < len(eachPixEx):
+                if eachPixEx[x] == eachPixInQ[x]:
+                    matchedAr.append(int(currentNum))
+                    
+                x += 1
+                
+    print(matchedAr)
+    # what Counter does is that it tells you in a list how many times the numbers in an array appear
+    y = Counter(matchedAr)
+    print(y)
+            
+# you can edit the test.png on Paint 2 (macOS) and draw whatever number you want and see what is the most probable number
+# the trained pictures were 8by8 but the test.png is 10by8 (still words though)
+whatNumIsThis('images/test.png')    
+    
+            
+# i1 = Image.open('images/numbers/0.1.png')
+# iar1 = np.array(i1)       
+# 
+# i2 = Image.open('images/numbers/y0.4.png')
+# iar2 = np.array(i2)  
+#         
+# i3 = Image.open('images/numbers/y0.5.png')
+# iar3 = np.array(i3)          
+# 
+# i4 = Image.open('images/sentdex.png')
+# iar4 = np.array(i4)     
   
-createExamples()
+
 # fig = plt.figure()
 # ax1 = plt.subplot2grid((8,6), (0,0), rowspan=4, colspan=3)
 # ax2 = plt.subplot2grid((8,6), (4,0), rowspan=4, colspan=3)

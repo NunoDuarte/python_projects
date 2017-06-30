@@ -65,9 +65,31 @@ def whatNumIsThis(filepath):
     # what Counter does is that it tells you in a list how many times the numbers in an array appear
     y = Counter(matchedAr)
     print(y)
+    
+    
+    graphX = []
+    graphY = []
+    
+    for eachThing in y:
+        print (eachThing)
+        graphX.append(eachThing)
+        print (y[eachThing])
+        graphY.append(y[eachThing])
+        
+    fig = plt.figure()
+    ax1 = plt.subplot2grid((4,4),(0,0), rowspan=1, colspan=4)
+    ax2 = plt.subplot2grid((4,4),(1,0), rowspan=3, colspan=4)
+    
+    ax1.imshow(iar)
+    ax2.bar(graphX,graphY, align = 'center')
+    plt.ylim(900) # to cut out the minimum value to show in the plot
+    
+    plt.show()
+
             
 # you can edit the test.png on Paint 2 (macOS) and draw whatever number you want and see what is the most probable number
 # the trained pictures were 8by8 but the test.png is 10by8 (still words though)
+# you need to draw a number between pixels 1 and 5 in horizontal and vertical axis to work properly
 whatNumIsThis('images/test.png')    
     
             

@@ -23,12 +23,23 @@ while(n < timestamp(end))
       i=i+1;
       set(gcf,'color','white');
       drawnow;
+      
+      subplot(1,2,1)
       plot(norm_pos_x(i,1), norm_pos_y(i,1),'-.dk','linewidth',1.8)
       axis([-1 1 -1 1])
-      grid off;
       title('Pupil gaze in Image Plane');
       xlabel('norm pos x');
       ylabel('norm pos y');
+      
+      subplot(1,2,2)
+      plot(mv_norm_x(i,1), mv_norm_y(i,1),'-.dk','linewidth',1.8)
+      axis([-1 1 -1 1])
+      grid off;
+      title('Simple Moving Average');
+      xlabel('mv norm pos x');
+      ylabel('mv norm pos y');
+      
+      n = timestamp(i,1);
       %pause(0.5);
 
 end

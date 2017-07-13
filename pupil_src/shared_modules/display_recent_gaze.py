@@ -9,10 +9,14 @@ See COPYING and COPYING.LESSER for license details.
 ---------------------------------------------------------------------------~(*)
 '''
 
+
 from plugin import Plugin
 from pyglui.cygl.utils import draw_points_norm,RGBA
 from pyglui import ui
+
 import numpy as np
+
+
 
 class Display_Recent_Gaze(Plugin):
     """
@@ -24,28 +28,46 @@ class Display_Recent_Gaze(Plugin):
         super().__init__(g_pool)
         self.order = .8
         self.pupil_display_list = []
+        self.pupil_real_data_list = [] # added this to store the real data
+        self.count = 0 # add counter to eliminate the garbish from the beginning
+
+    def mean(self, a):
+        return sum(a) / len(a)
 
     def recent_events(self,events):
         for pt in events.get('gaze_positions',[]):
-            print(self.pupil_display_list)
-            if (self.pupil_display_list != [] and pt['norm_pos'] != None):
-                new_pt = [0, 0]#self.moving_average()
+            #print(self.pupil_display_list)
+            if (self.pupil_real_data_list != [] and pt['norm_pos'] != None and self.count > 20):
+                new_pt = self.moving_average()
+                #print('new_pt' + str(new_pt))
             else: 
                 new_pt = pt['norm_pos']
-            print(new_pt)
+            #print(new_pt)
+            self.pupil_real_data_list.append((pt['norm_pos'] , pt['confidence']))
             self.pupil_display_list.append((new_pt , pt['confidence']))
-            #print(self.pupil_display_list[0][0][0])
+            self.count = self.count + 1 
+            #print(self.pupil_real_data_list)
             #print('\n')
 	    #self.pupil_display_list.append((pt['norm_pos'] , pt['confidence']))
         self.pupil_display_list[:-3] = []
+        self.pupil_real_data_list[:-3] = []
 
     def moving_average(self):
-        if len(self.pupil_display_list) > 5:
-            n = 5
-            a = self.pupil_display_list[:-5][0]
-            ret = np.cumsum(a, dtype=float)
-            ret[n:] = ret[n:] - ret[:-n]
-            return ret[n - 1:] / n
+        i = 1
+        list_pt = []
+        ct = 1
+        #print('real_data' + str(self.pupil_real_data_list))
+        while ct < 3:
+            #print('i' + str(i))
+            #print('ct' + str(ct))
+            if self.pupil_real_data_list[i] != None:
+                list_pt.append(self.pupil_real_data_list[i][0])
+                ct = ct + 1
+            i = i + 1
+        a = list_pt
+        n = 3
+        #print('a' + str(a))
+        return (*map(self.mean, zip(*a)),)
 
     def gl_display(self):
         for pt,a in self.pupil_display_list:

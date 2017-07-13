@@ -28,6 +28,7 @@ class Pupil_Data_Relay(Plugin):
 
         while self.pupil_sub.new_data:
             t,p = self.pupil_sub.recv()
+            #print(p) # this is the variable where the gaze and pupil positions are stored. 
             recent_pupil_data.append(p)
             new_gaze_data = self.g_pool.active_gaze_mapping_plugin.on_pupil_datum(p)
             for g in new_gaze_data:

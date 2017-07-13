@@ -27,8 +27,9 @@ class Display_Recent_Gaze(Plugin):
 
     def recent_events(self,events):
         for pt in events.get('gaze_positions',[]):
-            0#self.pupil_display_list.append((pt['norm_pos'] , pt['confidence']))
-        #self.pupil_display_list[:-3] = []
+            self.pupil_display_list.append(([0.26724333817998364, 0.6372802692127036], pt['confidence']))
+            #self.pupil_display_list.append((pt['norm_pos'] , pt['confidence']))
+        self.pupil_display_list[:-3] = []
 
 
     def gl_display(self):

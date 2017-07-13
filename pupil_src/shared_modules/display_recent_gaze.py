@@ -12,7 +12,7 @@ See COPYING and COPYING.LESSER for license details.
 from plugin import Plugin
 from pyglui.cygl.utils import draw_points_norm,RGBA
 from pyglui import ui
-
+import numpy as np
 
 class Display_Recent_Gaze(Plugin):
     """
@@ -27,10 +27,25 @@ class Display_Recent_Gaze(Plugin):
 
     def recent_events(self,events):
         for pt in events.get('gaze_positions',[]):
-            self.pupil_display_list.append(([0.26724333817998364, 0.6372802692127036], pt['confidence']))
-            #self.pupil_display_list.append((pt['norm_pos'] , pt['confidence']))
+            print(self.pupil_display_list)
+            if (self.pupil_display_list != [] and pt['norm_pos'] != None):
+                new_pt = [0, 0]#self.moving_average()
+            else: 
+                new_pt = pt['norm_pos']
+            print(new_pt)
+            self.pupil_display_list.append((new_pt , pt['confidence']))
+            #print(self.pupil_display_list[0][0][0])
+            #print('\n')
+	    #self.pupil_display_list.append((pt['norm_pos'] , pt['confidence']))
         self.pupil_display_list[:-3] = []
 
+    def moving_average(self):
+        if len(self.pupil_display_list) > 5:
+            n = 5
+            a = self.pupil_display_list[:-5][0]
+            ret = np.cumsum(a, dtype=float)
+            ret[n:] = ret[n:] - ret[:-n]
+            return ret[n - 1:] / n
 
     def gl_display(self):
         for pt,a in self.pupil_display_list:

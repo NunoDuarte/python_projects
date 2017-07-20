@@ -6,4 +6,8 @@
 # Pupil
 For more information go to website https://github.com/pupil-labs/pupil
 
+# Updates:
+
+Now it records, for some odd reason. I think it was just a bug because of some faulty initialization. It may help to open with su permissions in order to record to a folder in a different location.
+
 

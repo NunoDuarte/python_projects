@@ -1,6 +1,7 @@
 import dlib
 import collections
 import cv2
+import numpy as np
 
 
 # define a dictionary that maps the indexes of the facial
@@ -50,4 +51,6 @@ def visualize_facial_landmarks(image, shape, colors=None, alpha=0.75):
             hull = cv2.convexHull(pts)
             cv2.drawContours(overlay, [hull], -1, colors[i], -1)     
         
+# I just understood that shape are trained labels of facial landmarks of humans
+visualize_facial_landmarks('detect_face_parts_example_01.jpeg', )
         

@@ -1,13 +1,9 @@
 # Instructions to get it running on Ubuntu 16.04 (for me it was the only way)
 
-- Go back to the commit pupil-cc7a0840c1f322ef2193a1b0c473bbbe490e124cbecause it is the only one that has a version that is up to date enough and at the same time it reads the version pyndsi-0.2.16 and pyuvc-0.9
-
+To run Pupil software from source comment the anaconda3 path exported to $PATH
 
 # Pupil
 For more information go to website https://github.com/pupil-labs/pupil
 
 # Updates:
-
-Now it records, for some odd reason. I think it was just a bug because of some faulty initialization. It may help to open with su permissions in order to record to a folder in a different location.
-
 

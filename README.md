@@ -2,6 +2,8 @@
 
 To run Pupil software from source comment the anaconda3 path exported to $PATH
 
+Also, you need to close and open a new terminal. Otherwise, it will say that some libraries are missing when they are correctly installed
+
 # Pupil
 For more information go to website https://github.com/pupil-labs/pupil
 

@@ -7,5 +7,7 @@ Also, you need to close and open a new terminal. Otherwise, it will say that som
 # Pupil
 For more information go to website https://github.com/pupil-labs/pupil
 
-# Updates:
+# Notes:
+export CPLUS_INCLUDE_PATH=/home/nduarte/software/opencv/build/INSTALL/include - to add the include dirs 
+
 

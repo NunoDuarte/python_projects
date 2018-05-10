@@ -10,4 +10,6 @@ For more information go to website https://github.com/pupil-labs/pupil
 # Notes:
 export CPLUS_INCLUDE_PATH=/home/nduarte/software/opencv/build/INSTALL/include - to add the include dirs 
 
-
+# if you want to direct a library to the paths that the compiler checks do the following
+1. ld -l<library> --verbose -> this gives you the places where the compiler looks for 
+2. sudo ln -s /usr/lib/lib<library>.so <one of the libraries that 'ld' gave you>

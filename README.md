@@ -13,3 +13,12 @@ export CPLUS_INCLUDE_PATH=/home/nduarte/software/opencv/build/INSTALL/include - 
 # if you want to direct a library to the paths that the compiler checks do the following
 1. ld -l<library> --verbose -> this gives you the places where the compiler looks for 
 2. sudo ln -s /usr/lib/lib<library>.so <one of the libraries that 'ld' gave you>
+
+# add compiler flags to codeblocks
+## for the case that it doesnt pthread_create@@GLIBC_2.2.5 in Pupil_Yarp_Stream
+1. add -std=c++11 -pthread in:
+You will have to go to Settings -> Compiler... and next you'll have to click on Linker Settings TAB.
+
+On the right side you will see Other Linker Options. There you have to type -lpthread and press OK.
+
+You may need to click on rebuild after that.

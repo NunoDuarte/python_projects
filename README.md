@@ -7,10 +7,10 @@ Also, you need to close and open a new terminal. Otherwise, it will say that som
 # Pupil
 For more information go to website https://github.com/pupil-labs/pupil
 
-## nduarte account
+# nduarte account
 1. remove anaconda
 2. python3 /home/nduarte/software/pupil/pupil_src/main.py
-# Notes:
+## notes
 export CPLUS_INCLUDE_PATH=/home/nduarte/software/opencv/build/INSTALL/include - to add the include dirs 
 
 # if you want to direct a library to the paths that the compiler checks do the following

@@ -7,6 +7,10 @@ Also, you need to close and open a new terminal. Otherwise, it will say that som
 # Pupil
 For more information go to website https://github.com/pupil-labs/pupil
 
+# ubuntu VisLab account
+1. remove anaconda
+2. python3 /home/nuno/pupil/pupil_from_lsl/pupil/pupil_src/main.py
+
 # nduarte account
 1. remove anaconda
 2. python3 /home/nduarte/software/pupil/pupil_src/main.py

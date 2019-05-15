@@ -1,0 +1,25 @@
+
+#YARP_ROOT=/home/nuno/yarp
+#YARP_DIR=$YARP_ROOT/build
+#ICUB_ROOT=/home/nuno/icub/icub-main
+#ICUB_DIR=$ICUB_ROOT/build
+#ICUBcontrib_DIR=/home/nuno/icub/icub-contrib-common
+#PATH=$PATH:$YARP_DIR/bin:$ICUB_DIR/bin:$ICUBcontrib_DIR/bin
+#CMAKE_PREFIX_PATH=$ICUBcontrib_DIR
+# $YARP_DIR/lib
+#YARP_DATA_DIRS=$YARP_DATA_DIRS:$ICUB_DIR/share/iCub:$ICUBcontrib_DIR/build/INSTALL/share/ICUBcontrib:${YARP_DIR}/share/yarp
+#PYTHONPATH=$YARP_DIR/lib/python:$PYTHONPATH
+
+export YARP_ROOT=~/yarp
+export YARP_DIR=$YARP_ROOT/build
+export ICUB_ROOT=~/icub/icub-main
+export ICUB_DIR=$ICUB_ROOT/build
+export ICUBcontrib_DIR=~/icub/icub-contrib-common/build
+export YARP_DATA_DIRS=$YARP_DIR/share/yarp/:$ICUB_DIR/share/iCub/:$ICUBcontrib_DIR/share/ICUBcontrib
+export PATH=$PATH:$YARP_DIR/bin:$ICUB_DIR/bin:$ICUBcontrib_DIR/bin
+if [ -f $YARP_ROOT/scripts/yarp_completion ]; then
+   source $YARP_ROOT/scripts/yarp_completion
+fi
+PYTHONPATH=$YARP_DIR/lib/python:$PYTHONPATH
+export Qt5_DIR=/home/nuno/software/qt5/qtbase/lib/cmake/Qt5
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/nuno/software/qt5/qtbase/lib

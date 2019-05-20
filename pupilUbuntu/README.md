@@ -29,3 +29,7 @@ You will have to go to Settings -> Compiler... and next you'll have to click on 
 On the right side you will see Other Linker Options. There you have to type -lpthread and press OK.
 
 You may need to click on rebuild after that.
+
+# Run PupilLabs without GUI 
+replace world.py and eye.py in launchables with world_nogui.py and eye_nogui.py
+

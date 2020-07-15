@@ -1,12 +1,22 @@
-from keras import models
-from keras import layers
+import numpy as np
+from keras.datasets import imdb
 
-model = models.Sequential()
 
-# first layer (output, input)
-model.add(layers.Dense(32, input_shape=(784,)))
-# second layer (only output)  - it takes the size of the input to be the same as the output of the 
-# previous layer
-model.add(layers.Dense(32))
+(train_data, train_labels), (test_data, test_labels) = imdb.load_data(
+num_words=10000)
 
-# stop at section 3.4
+
+def vectorize_sequences(sequences, dimension=10000):
+    results = np.zeros((len(sequences), dimension))
+    for i, sequence in enumerate(sequences):
+        results[i, sequence] = 1.
+    return results
+
+x_train = vectorize_sequences(train_data)
+x_test = vectorize_sequences(test_data)
+
+y_train = np.asarray(train_labels).astype('float32')
+y_test = np.asarray(test_labels).astype('float32')
+
+
+

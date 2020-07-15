@@ -9,8 +9,8 @@ print(train_data[0]) # index of words
 print(train_labels[0]) # 1 - positive; 0 - negative review
 
 
-
-
+# vectorize the data into one-hot encode; For all sequences you set a normalize vector with 1 for 
+# present index and 0 for not present index
 def vectorize_sequences(sequences, dimension=10000):
     results = np.zeros((len(sequences), dimension))
     for i, sequence in enumerate(sequences):

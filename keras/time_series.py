@@ -103,7 +103,7 @@ model = load_model("best_model.pkl")
 
 from sklearn.metrics import accuracy_score
 test_preds = model.predict_classes(test)
-accuracy_score(test_target, test_preds)
+print('accuracy score -', accuracy_score(test_target, test_preds))
 
 
 

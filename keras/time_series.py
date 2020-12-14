@@ -14,4 +14,5 @@ from keras.optimizers import Adam
 from keras.models import load_model
 from keras.callbacks import ModelCheckpoint
 
-
+df1 = pd.read_csv("~/datasets/MovementAAL/dataset/MovementAAL_RSS_1.csv")
+df2 = pd.read_csv("~/datasets/MovementAAL/dataset/MovementAAL_RSS_2.csv")

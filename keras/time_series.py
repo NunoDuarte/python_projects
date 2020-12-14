@@ -64,4 +64,26 @@ from keras.preprocessing import sequence
 seq_len = 60
 final_seq=sequence.pad_sequences(final_seq, maxlen=seq_len, padding='post', dtype='float', truncating='post')
 
+# separate dataset between train|validation|test set
+train = [final_seq[i] for i in range(len(groups)) if (groups[i]==2)]
+validation = [final_seq[i] for i in range(len(groups)) if groups[i]==1]
+test = [final_seq[i] for i in range(len(groups)) if groups[i]==3]
+
+train_target = [targets[i] for i in range(len(groups)) if (groups[i]==2)]
+validation_target = [targets[i] for i in range(len(groups)) if groups[i]==1]
+test_target = [targets[i] for i in range(len(groups)) if groups[i]==3]
+
+train = np.array(train)
+validation = np.array(validation)
+test = np.array(test)
+
+train_target = np.array(train_target)
+train_target = (train_target+1)/2
+
+validation_target = np.array(validation_target)
+validation_target = (validation_target+1)/2
+
+test_target = np.array(test_target)
+test_target = (test_target+1)/2
+
 

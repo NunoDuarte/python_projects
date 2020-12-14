@@ -96,14 +96,16 @@ model.summary()
 adam = Adam(lr=0.001)
 chk = ModelCheckpoint("best_model.pkl", monitor='val_accuracy', save_best_only=True, mode='max', verbose=1)
 model.compile(loss='binary_crossentropy', optimizer=adam, metrics=['accuracy'])
-model.fit(train, train_target, epochs=200, batch_size=128, callbacks=[chk], validation_data=(validation,validation_target))
+model.fit(train, train_target, epochs=500, batch_size=512, callbacks=[chk], validation_data=(validation,validation_target))
 
+print("Test data results\n")
 #loading the model and checking accuracy on the test data
 model = load_model("best_model.pkl")
 
 from sklearn.metrics import accuracy_score
-test_preds = model.predict_classes(test)
-print('accuracy score -', accuracy_score(test_target, test_preds))
+#test_preds = model.predict_classes(test)
+test_preds = (model.predict(test) > 0.5).astype("int32")
+print("accuracy score -", accuracy_score(test_target, test_preds))
 
 
 

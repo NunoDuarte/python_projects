@@ -16,3 +16,20 @@ from keras.callbacks import ModelCheckpoint
 
 df1 = pd.read_csv("~/datasets/MovementAAL/dataset/MovementAAL_RSS_1.csv")
 df2 = pd.read_csv("~/datasets/MovementAAL/dataset/MovementAAL_RSS_2.csv")
+
+#print(df1.head())
+#print(df2.head())
+#print(df1.shape, df2.shape)
+
+# store and read the dataset
+path = "~/datasets/MovementAAL/dataset/MovementAAL_RSS_"
+sequences = list()
+for i in range(1,315):
+    file_path = path + str(i) + '.csv'
+    print(file_path)
+    df = pd.read_csv(file_path, header=0)
+    values = df.values
+    sequences.append(values)
+
+
+

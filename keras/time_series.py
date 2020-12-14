@@ -88,15 +88,16 @@ test_target = (test_target+1)/2
 
 ## build the model
 model = Sequential()
-model.add(LSTM(256, input_shape=(seq_len, 4)))
+model.add(LSTM(256, return_sequences=True, input_shape=(seq_len, 4)))
+model.add(LSTM(256))
 model.add(Dense(1, activation='sigmoid'))
 
 model.summary()
 
-adam = Adam(lr=0.001)
+adam = Adam(lr=0.1)
 chk = ModelCheckpoint("best_model.pkl", monitor='val_accuracy', save_best_only=True, mode='max', verbose=1)
 model.compile(loss='binary_crossentropy', optimizer=adam, metrics=['accuracy'])
-model.fit(train, train_target, epochs=500, batch_size=512, callbacks=[chk], validation_data=(validation,validation_target))
+model.fit(train, train_target, epochs=500, batch_size=32, callbacks=[chk], validation_data=(validation,validation_target))
 
 print("Test data results\n")
 #loading the model and checking accuracy on the test data

@@ -98,7 +98,7 @@ chk = ModelCheckpoint("best_model.pkl", monitor='val_accuracy', save_best_only=T
 model.compile(loss='binary_crossentropy', optimizer=adam, metrics=['accuracy'])
 model.fit(train, train_target, epochs=500, batch_size=32, callbacks=[chk], validation_data=(validation,validation_target))
 
-print("Test data results\n")
+print("Test data results")
 #loading the model and checking accuracy on the test data
 model = load_model("best_model.pkl")
 

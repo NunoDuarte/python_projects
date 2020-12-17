@@ -7,7 +7,7 @@ from os import listdir
 from keras.preprocessing import sequence
 import tensorflow as tf
 from keras.models import Sequential
-from keras.layers import Dense
+from keras.layers import Dense, Dropout, TimeDistributed, Activation
 from keras.layers import LSTM
 
 from keras.optimizers import Adam
@@ -42,17 +42,17 @@ targets = targets.values[:,1]
 
 #truncate the sequence to length 100
 from keras.preprocessing import sequence
-seq_len = 100
+seq_len = 101
 final_seq=sequence.pad_sequences(sequences, maxlen=seq_len, padding='post', dtype='float', truncating='post')
 
 # separate dataset between train|validation|test set
-train = [final_seq[i] for i in range(0, 35)]
-validation = [final_seq[i] for i in range(36, 40)]
-test = [final_seq[i] for i in range(41, 51)]
+train = [final_seq[i] for i in range(0, 30)]
+validation = [final_seq[i] for i in range(31, 40)]
+test = [final_seq[i] for i in range(35, 51)]
 
-train_target = [targets[i] for i in range(0, 35)]
-validation_target = [targets[i] for i in range(36, 40)]
-test_target = [targets[i] for i in range(41, 51)]
+train_target = [targets[i] for i in range(0, 30)]
+validation_target = [targets[i] for i in range(31, 40)]
+test_target = [targets[i] for i in range(35, 51)]
 
 train = np.array(train)
 validation = np.array(validation)
@@ -69,15 +69,22 @@ test_target = np.array(test_target)
 
 ## build the model
 model = Sequential()
-model.add(LSTM(128, input_shape=(seq_len, 1)))
+model.add(LSTM(256, return_sequences=True, input_shape=(seq_len,1) ))
+model.add(Dropout(0.4))
+model.add(LSTM(256, return_sequences=True))
+model.add(Dropout(0.4))
+model.add(LSTM(256))
 model.add(Dense(1, activation='sigmoid'))
+
+#model.add(LSTM(256, input_shape=(seq_len, 1)))
+#model.add(Dense(1, activation='sigmoid'))
 
 model.summary()
 
-adam = Adam(lr=0.005)
+adam = Adam(lr=0.01)
 chk = ModelCheckpoint("best_model.pkl", monitor='val_accuracy', save_best_only=True, mode='max', verbose=1)
 model.compile(loss='binary_crossentropy', optimizer=adam, metrics=['accuracy'])
-model.fit(train, train_target, epochs=500, batch_size=32, callbacks=[chk], validation_data=(validation,validation_target))
+model.fit(train, train_target, epochs=100, batch_size=5, callbacks=[chk], validation_data=(validation,validation_target))
 
 print("Test data results")
 #loading the model and checking accuracy on the test data

@@ -1,2 +1,1 @@
-# python
-A Collection of Diversified Python Projects 
+# A Collection of Diversified Python Projects 

@@ -1,1 +1,27 @@
-# A Collection of Diversified Python Projects 
+###  A Collection of Diversified Python Projects 
+
+- **Bayesian Network Algorithms**
+  - 
+- **Data Analysis**
+  - 
+- **Image Recognition**
+  - 
+- **Kaggle:**
+  - **Cats vs Dogs**
+    - 
+  - **Lung Cancer**
+    - 
+- **Monte Carlo Simulation**
+  - 
+- **SAT Algorithms**
+  - 
+- **Search Algorithms**
+  -
+- **Face Detection**
+  - 
+- **Keras Programming**
+  - 
+- **Pupil Labs Ubuntu**
+  - 
+- **PyGame Project**
+  - 

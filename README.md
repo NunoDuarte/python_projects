@@ -7,6 +7,7 @@
 - **Image Recognition**
   - 
 - **Kaggle:**
+  - Kaggle projects to learn how to train Neural Networks
   - **Cats vs Dogs**
     - 
   - **Lung Cancer**

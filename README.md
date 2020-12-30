@@ -13,9 +13,9 @@
   - **Lung Cancer**
     - Classify and identify cancer in lungs of patients
 - **Monte Carlo Simulation**
-  - 
+  - Examples of Monte Carlo Algorithms
 - **SAT Algorithms**
-  - 
+  - Examples of
 - **Search Algorithms**
   -
 - **Face Detection**

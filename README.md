@@ -15,11 +15,11 @@
 - **Monte Carlo Simulation**
   - Examples of Monte Carlo Algorithms
 - **SAT Algorithms**
-  - Examples of
+  - Examples of boolean satisfiability (SAT) Algorithms: Davis–Putnam–Logemann–Loveland (DPLL) algorithm, walk SAT, greedy SAT.
 - **Search Algorithms**
-  -
+  - Examples of Search Algorithms
 - **Face Detection**
-  - 
+  - Project Face Detection from OpenCV
 - **Keras Programming**
   - 
 - **Pupil Labs Ubuntu**

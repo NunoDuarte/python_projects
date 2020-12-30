@@ -11,7 +11,7 @@
   - **Cats vs Dogs**
     - Classify and distinguish between cats and dogs
   - **Lung Cancer**
-    - 
+    - Classify and identify cancer in lungs of patients
 - **Monte Carlo Simulation**
   - 
 - **SAT Algorithms**

@@ -3,7 +3,7 @@
 - **Bayesian Network Algorithms**
   - 
 - **Data Analysis**
-  - 
+  - Tutorial on data analysis using python, Panda library and so forth
 - **Kaggle:**
   Kaggle projects to learn how to train Neural Networks
   - **Cats vs Dogs**

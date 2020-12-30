@@ -25,4 +25,4 @@
 - **Pupil Labs Ubuntu**
   - 
 - **PyGame Project**
-  - 
+  - Project of PyGame to learn how to do a game using python

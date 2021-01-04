@@ -1,3 +1,11 @@
+import numpy as np
+def sigmoid(x):
+    sigm = 1. / (1. + np.exp(-x))
+    return sigm
+
+def sigmoid_derivative(x):
+    return sigmoid(x) * (1. - sigmoid(x))
+
 class NeuralNetwork:
     def __init__(self, x, y):
         self.input      = x
@@ -19,3 +27,18 @@ class NeuralNetwork:
         self.weights1 += d_weights1
         self.weights2 += d_weights2
 
+    def test(self, x_test):
+        self.layer1 = sigmoid(np.dot(x_test, self.weights1))
+        self.output = sigmoid(np.dot(self.layer1, self.weights2))
+        print(self.output) 
+
+X=np.array([[0,0,1],[0,1,1],[1,0,1],[1,1,1]])
+Y=np.array([[0],[1],[1],[0]])
+
+nn=NeuralNetwork(X,Y)
+for i in range(1500):
+    nn.feedforward()
+    nn.backprop()
+
+X_test=np.array([[0,0,1],[0,1,1],[1,0,1],[1,1,1]])
+nn.test(X_test)

@@ -69,19 +69,19 @@ test_target = np.array(test_target)
 
 ## build the model
 model = Sequential()
-model.add(LSTM(256, return_sequences=True, input_shape=(seq_len,1) ))
-model.add(Dropout(0.4))
-model.add(LSTM(256, return_sequences=True))
-model.add(Dropout(0.4))
-model.add(LSTM(256))
-model.add(Dense(1, activation='sigmoid'))
-
-#model.add(LSTM(256, input_shape=(seq_len, 1)))
+#model.add(LSTM(256, return_sequences=True, input_shape=(seq_len,1) ))
+#model.add(Dropout(0.4))
+#model.add(LSTM(256, return_sequences=True))
+#model.add(Dropout(0.4))
+#model.add(LSTM(256))
 #model.add(Dense(1, activation='sigmoid'))
+
+model.add(LSTM(128, input_shape=(seq_len, 1)))
+model.add(Dense(1, activation='sigmoid'))
 
 model.summary()
 
-adam = Adam(lr=0.01)
+adam = Adam(lr=0.005)
 chk = ModelCheckpoint("best_model.pkl", monitor='val_accuracy', save_best_only=True, mode='max', verbose=1)
 model.compile(loss='binary_crossentropy', optimizer=adam, metrics=['accuracy'])
 model.fit(train, train_target, epochs=100, batch_size=5, callbacks=[chk], validation_data=(validation,validation_target))

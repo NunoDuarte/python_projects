@@ -2,6 +2,9 @@ import numpy as np
 from keras.datasets import imdb
 from keras import models
 from keras import layers
+import matplotlib
+matplotlib.use('TKAgg')
+import matplotlib.pyplot as plt 
 
 (train_data, train_labels), (test_data, test_labels) = imdb.load_data(
     num_words=10000)
@@ -58,6 +61,18 @@ history = model.fit(partial_x_train,
                     batch_size=512,
                     validation_data=(x_val, y_val))
 
+# plot the results
 history_dict = history.history
-history_dict.keys()
+loss_values = history_dict['loss']
+val_loss_values = history_dict['val_loss']
+
+epochs = range(1, 20  + 1)
+
+plt.plot(epochs, loss_values, 'bo', label='Training loss')
+plt.plot(epochs, val_loss_values, 'b', label='Validation loss')
+plt.title('Training and validation loss')
+plt.xlabel('Epochs')
+plt.ylabel('Loss')
+plt.legend()
+plt.show()
 

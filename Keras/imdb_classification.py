@@ -62,31 +62,34 @@ history = model.fit(partial_x_train,
                     batch_size=1024,
                     validation_data=(x_val, y_val))
 
-# plot the results
-history_dict = history.history
-loss_values = history_dict['loss']
-val_loss_values = history_dict['val_loss']
+## plot the results
+#history_dict = history.history
+#loss_values = history_dict['loss']
+#val_loss_values = history_dict['val_loss']
 
-epochs = range(1, n_epochs  + 1)
+#epochs = range(1, n_epochs  + 1)
+#
+#plt.plot(epochs, loss_values, 'bo', label='Training loss')
+#plt.plot(epochs, val_loss_values, 'b', label='Validation loss')
+#plt.title('Training and validation loss')
+#plt.xlabel('Epochs')
+#plt.ylabel('Loss')
+#plt.legend()
+#plt.show()
+#
+#plt.clf() # clear figure
+#
+#acc_values = history_dict['accuracy'] 
+#val_acc_values = history_dict['val_accuracy']
+#plt.plot(epochs, acc_values, 'bo', label='Training acc')
+#plt.plot(epochs, val_acc_values, 'b', label='Validation acc')
+#plt.title('Training and validation accuracy')
+#plt.xlabel('Epochs')
+#plt.ylabel('Loss')
+#plt.legend()
+#plt.show()
 
-plt.plot(epochs, loss_values, 'bo', label='Training loss')
-plt.plot(epochs, val_loss_values, 'b', label='Validation loss')
-plt.title('Training and validation loss')
-plt.xlabel('Epochs')
-plt.ylabel('Loss')
-plt.legend()
-plt.show()
-
-plt.clf() # clear figure
-
-acc_values = history_dict['accuracy'] 
-val_acc_values = history_dict['val_accuracy']
-plt.plot(epochs, acc_values, 'bo', label='Training acc')
-plt.plot(epochs, val_acc_values, 'b', label='Validation acc')
-plt.title('Training and validation accuracy')
-plt.xlabel('Epochs')
-plt.ylabel('Loss')
-plt.legend()
-plt.show()
-
+# output likelihood for test data
+prediction = model.predict(x_test)
+print(prediction)
 

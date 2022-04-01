@@ -7,7 +7,9 @@ from keras.utils import to_categorical
 model = models.Sequential()
 # 3 by 3 conv layers (filter) that go over the whole 28x28 pixel image - the output is a 26x26 grid of values
 # 32 filters gives 32 features (filters) for the 28x28 pixel image
+# input is 28x28x1 because it is in black and white; rgb is 28x28x3
 model.add(layers.Conv2D(32, (3, 3), activation='relu', input_shape=(28, 28, 1)))
+# downsampling by taking the max value of each channel in a 2x2 window
 model.add(layers.MaxPooling2D((2, 2)))
 model.add(layers.Conv2D(64, (3, 3), activation='relu')) 
 model.add(layers.MaxPooling2D((2, 2)))

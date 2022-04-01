@@ -35,19 +35,23 @@ train_dir = dataset_dir + '/train'
 validation_dir = dataset_dir + '/validation'
 test_dir = dataset_dir + '/test'
 
+## process data 
+# train
 train_generator = train_datagen.flow_from_directory(
         train_dir,
         target_size=(150, 150),
         batch_size=20,
         class_mode='binary')
 
+# validation
 validation_generator = test_datagen.flow_from_directory(
         validation_dir,
         target_size=(150, 150),
         batch_size=20,
         class_mode='binary')
 
-history = model.fit_generator(
+# train model
+history = model.fit(
       train_generator,
       steps_per_epoch=100,
       epochs=30,
@@ -62,10 +66,12 @@ val_acc = history.history['val_acc']
 loss = history.history['loss']
 val_loss = history.history['val_loss']
 epochs = range(1, len(acc) + 1)
+
 plt.plot(epochs, acc, 'bo', label='Training acc')
 plt.plot(epochs, val_acc, 'b', label='Validation acc')
 plt.title('Training and validation accuracy')
 plt.legend()
+
 plt.figure()
 plt.plot(epochs, loss, 'bo', label='Training loss')
 plt.plot(epochs, val_loss, 'b', label='Validation loss')

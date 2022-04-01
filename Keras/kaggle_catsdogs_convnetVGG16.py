@@ -11,9 +11,16 @@ conv_base = VGG16(weights='imagenet',
                   include_top=False,
                   input_shape=(150, 150, 3))
 
+# get dataset
+dataset_dir = '/home/nuno/datasets/dogs-vs-cats/cats_and_dogs_small'
+train_dir = dataset_dir + '/train'
+validation_dir = dataset_dir + '/validation'
+test_dir = dataset_dir + '/test'
+
 datagen = ImageDataGenerator(rescale=1./255) 
 batch_size = 20
 
+# extract the features from VGG16 when predicting over my dataset
 def extract_features(directory, sample_count):
     features = np.zeros(shape=(sample_count, 4, 4, 512)) 
     labels = np.zeros(shape=(sample_count))

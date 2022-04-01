@@ -17,6 +17,7 @@ model.add(layers.Conv2D(128, (3, 3), activation='relu'))
 model.add(layers.MaxPooling2D((2, 2)))
 
 model.add(layers.Flatten())
+model.add(layers.Dropout(0.5))  # NEW
 model.add(layers.Dense(512, activation='relu'))
 model.add(layers.Dense(1, activation='sigmoid'))
 
@@ -27,7 +28,17 @@ model.compile(loss='binary_crossentropy',
                       optimizer=optimizers.RMSprop(lr=1e-4),
                       metrics=['acc'])
 
-train_datagen = ImageDataGenerator(rescale=1./255)
+## NEW
+train_datagen = ImageDataGenerator(
+    rescale=1./255,
+    rotation_range=40,
+    width_shift_range=0.2,
+    height_shift_range=0.2,
+    shear_range=0.2,
+    zoom_range=0.2,
+    horizontal_flip=True,)
+
+# OLD - train_datagen = ImageDataGenerator(rescale=1./255)
 test_datagen = ImageDataGenerator(rescale=1./255)
 
 # get dataset
@@ -53,36 +64,8 @@ validation_generator = test_datagen.flow_from_directory(
 
 # ---------- // ----------
 ## UPDATE - Data Augmentation
-import os 
 
-train_cats_dir = '/home/nuno/datasets/dogs-vs-cats/cats_and_dogs_small/train/cats'
-
-datagen = ImageDataGenerator(
-        rotation_range=40,
-        width_shift_range=0.2,
-        height_shift_range=0.2,
-        shear_range=0.2,
-        zoom_range=0.2,
-        horizontal_flip=True,
-        fill_mode='nearest')
-
-fnames = [os.path.join(train_cats_dir, fname) for fname in os.listdir(train_cats_dir)]
-img_path = fnames[3]
-img = image.load_img(img_path, target_size=(150, 150))
-
-x = image.img_to_array(img)
-x = x.reshape((1,) + x.shape)
-
-i=0
-for batch in datagen.flow(x, batch_size=1):
-    plt.figure(i)
-    imgplot = plt.imshow(image.array_to_img(batch[0]))
-    i += 1
-    if i % 4 == 0:
-        break
-plt.show()
-
-input()
+## UPDATE - Add Dropout Layer
 
 # train model
 history = model.fit(
@@ -92,7 +75,7 @@ history = model.fit(
       validation_data=validation_generator,
       validation_steps=50)
 
-model.save('cats_and_dogs_small_1.h5')
+model.save('cats_and_dogs_small_2.h5')
 
 # plot results
 acc = history.history['acc']

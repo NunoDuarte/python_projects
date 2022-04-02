@@ -36,7 +36,8 @@ train_datagen = ImageDataGenerator(
     height_shift_range=0.2,
     shear_range=0.2,
     zoom_range=0.2,
-    horizontal_flip=True,)
+    horizontal_flip=True,
+    fill_mode='nearest')
 
 # OLD - train_datagen = ImageDataGenerator(rescale=1./255)
 test_datagen = ImageDataGenerator(rescale=1./255)
@@ -71,7 +72,7 @@ validation_generator = test_datagen.flow_from_directory(
 history = model.fit(
       train_generator,
       steps_per_epoch=100,
-      epochs=30,
+      epochs=100,
       validation_data=validation_generator,
       validation_steps=50)
 

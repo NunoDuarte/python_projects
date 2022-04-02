@@ -36,8 +36,7 @@ train_datagen = ImageDataGenerator(
     height_shift_range=0.2,
     shear_range=0.2,
     zoom_range=0.2,
-    horizontal_flip=True,
-    fill_mode='nearest')
+    horizontal_flip=True,)
 
 # OLD - train_datagen = ImageDataGenerator(rescale=1./255)
 test_datagen = ImageDataGenerator(rescale=1./255)

@@ -11,10 +11,17 @@ conv_base = VGG16(weights='imagenet',
                   include_top=False,
                   input_shape=(150, 150, 3))
 
+# build CNN
+model = models.Sequential()
+model.add(conv_base)
+model.add(layers.Flatten())
+model.add(layers.Dense(256, activation='relu'))
+model.add(layers.Dense(1, activation='sigmoid'))
+
 # Freezing - prevent the weights of VGG16 to be updated
 # with this commented it achieves the accuracy that the book presents;
 # with this not commneted, it only gets to 89%
-#conv_base.trainable = False
+conv_base.trainable = False
 
 # get dataset
 dataset_dir = '/home/nuno/datasets/dogs-vs-cats/cats_and_dogs_small'
@@ -49,15 +56,7 @@ validation_generator = test_datagen.flow_from_directory(
         batch_size=20,
         class_mode='binary')
 
-# build CNN
-model = models.Sequential()
-model.add(conv_base)
-model.add(layers.Flatten())
-model.add(layers.Dense(256, activation='relu'))
-model.add(layers.Dense(1, activation='sigmoid'))
-
 # I've reached 96% accuracy, 0.15 loss function
-
 # choose compiler, loss function, and accuracy as metric
 model.compile(optimizer=optimizers.RMSprop(lr=2e-5),
               loss='binary_crossentropy',

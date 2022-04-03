@@ -23,6 +23,19 @@ model.add(layers.Dense(1, activation='sigmoid'))
 # with this not commneted, it only gets to 89%
 conv_base.trainable = False
 
+# Let's check the accuracy for fine-tuning the network
+# It reaches 93% accuracy - there is improvement 
+#conv_base.trainable = True
+#set_trainable = False
+#for layer in conv_base.layers:
+#    if layer.name == 'block5_conv1':
+#        set_trainable = True
+#    if set_trainable:
+#        layer.trainable = True
+#    else:
+#        layer.trainable = False
+
+
 # get dataset
 dataset_dir = '/home/nuno/datasets/dogs-vs-cats/cats_and_dogs_small'
 train_dir = dataset_dir + '/train'

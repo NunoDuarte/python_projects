@@ -7,12 +7,23 @@ import matplotlib.pyplot as plt
 import numpy as np
 from keras.applications import VGG16
 
+# Freeze the whole network you achieve 93% accuracy
+# Training the whole network (conv_base + CNN) you achieve 96% accuracy
 # page 181
 
 conv_base = VGG16(weights='imagenet',
                   include_top=False,
                   input_shape=(150, 150, 3))
 
+# build CNN
+model = models.Sequential()
+model.add(conv_base)
+model.add(layers.Flatten())
+model.add(layers.Dense(256, activation='relu'))
+model.add(layers.Dense(1, activation='sigmoid'))
+
+# Freezing until the last layer
+# You achieve 93% accuracy
 conv_base.trainable = True
 set_trainable = False
 for layer in conv_base.layers:
@@ -56,34 +67,29 @@ validation_generator = test_datagen.flow_from_directory(
         batch_size=20,
         class_mode='binary')
 
-# build CNN
-model = models.Sequential()
-model.add(conv_base)
-model.add(layers.Flatten())
-model.add(layers.Dense(256, activation='relu'))
-model.add(layers.Dense(1, activation='sigmoid'))
-
 # choose compiler, loss function, and accuracy as metric
 model.compile(optimizer=optimizers.RMSprop(lr=1e-5),
               loss='binary_crossentropy',
               metrics=['acc'])
 
 # train model
-history = model.fit(
-      train_generator,
-      steps_per_epoch=100,
-      epochs=30,
-      validation_data=validation_generator,
-      validation_steps=50)
+trained_model = False
+#history = model.fit(
+#      train_generator,
+#      steps_per_epoch=100,
+#      epochs=30,
+#      validation_data=validation_generator,
+#      validation_steps=50)
 
-model.save('cats_and_dogs_small_5.h5')
+#model.save('cats_and_dogs_small_5.h5')
 
-# plot results
-acc = history.history['acc']
-val_acc = history.history['val_acc']
-loss = history.history['loss']
-val_loss = history.history['val_loss']
-epochs = range(1, len(acc) + 1)
+if trained_model:
+    # plot results
+    acc = history.history['acc']
+    val_acc = history.history['val_acc']
+    loss = history.history['loss']
+    val_loss = history.history['val_loss']
+    epochs = range(1, len(acc) + 1)
 
 def smooth_curve(points, factor=0.8):
   smoothed_points = []
@@ -95,17 +101,29 @@ def smooth_curve(points, factor=0.8):
       smoothed_points.append(point)
   return smoothed_points
 
+if trained_model:
+    plt.plot(epochs, smooth_curve(acc), 'bo', label='Smoothed training acc')
+    plt.plot(epochs, smooth_curve(val_acc), 'b', label='Smoothed validation acc')
+    plt.title('Training and validation accuracy')
+    plt.legend()
+    plt.figure()
+    plt.plot(epochs,
+             smooth_curve(loss), 'bo', label='Smoothed training loss')
+    plt.plot(epochs, smooth_curve(val_loss), 'b', label='Smoothed validation loss')
+    plt.title('Training and validation loss')
+    plt.legend()
+    plt.show()
 
-plt.plot(epochs, smooth_curve(acc), 'bo', label='Smoothed training acc')
-plt.plot(epochs, smooth_curve(val_acc), 'b', label='Smoothed validation acc')
-plt.title('Training and validation accuracy')
-plt.legend()
-plt.figure()
-plt.plot(epochs,
-         smooth_curve(loss), 'bo', label='Smoothed training loss')
-plt.plot(epochs, smooth_curve(val_loss), 'b', label='Smoothed validation loss')
-plt.title('Training and validation loss')
-plt.legend()
-plt.show()
+# load model
+reconstructed_model = models.load_model("cats_and_dogs_small_5.h5")
 
+## classify test set
+test_generator = test_datagen.flow_from_directory(
+        test_dir,
+        target_size=(150, 150),
+        batch_size=20,
+        class_mode='binary')
+test_loss, test_acc = reconstructed_model.evaluate_generator(test_generator, steps=50)
+print('test acc:', test_acc)
+# achieve 93 % accuracy
 

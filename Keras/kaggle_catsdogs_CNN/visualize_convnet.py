@@ -3,18 +3,19 @@ from keras.preprocessing import image
 from keras import models
 import numpy as np
 import matplotlib.pyplot as plt
+np.seterr(divide='ignore', invalid='ignore')
 
 model = load_model('models/cats_and_dogs_small_2.h5')
 #model.summary()
 
+## Show one of the images of the dataset
 img_path = '/home/nuno/datasets/dogs-vs-cats/cats_and_dogs_small/test/cats/cat.1700.jpg'
-
 img = image.load_img(img_path, target_size=(150, 150)) 
 img_tensor = np.array(img)
 img_tensor = np.expand_dims(img_tensor, axis=0) 
 
-plt.imshow(img_tensor[0])
-plt.show()
+#plt.imshow(img_tensor[0])
+#plt.show()
 
 layer_outputs = [layer.output for layer in model.layers[:8]]
 activation_model = models.Model(inputs=model.input, outputs=layer_outputs)
@@ -31,7 +32,6 @@ for layer in model.layers[:8]:
     layer_names.append(layer.name)
 
 images_per_row = 16
-
 for layer_name, layer_activation in zip(layer_names, activations):
 
     n_features = layer_activation.shape[-1]
@@ -44,7 +44,7 @@ for layer_name, layer_activation in zip(layer_names, activations):
     for col in range(n_cols):
         for row in range(images_per_row):
             channel_image = layer_activation[0, :, :, col* images_per_row + row]
-
+         
             channel_image -= channel_image.mean()
             channel_image /= channel_image.std()
             channel_image *= 64
@@ -60,7 +60,7 @@ for layer_name, layer_activation in zip(layer_names, activations):
     plt.title(layer_name)
     plt.grid(False)
     plt.imshow(display_grid, aspect='auto', cmap='viridis')
-
+    #plt.show()
 
 
 

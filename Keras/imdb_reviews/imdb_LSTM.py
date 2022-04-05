@@ -57,3 +57,7 @@ plt.show()
 # 88% accuracy - an improvement
 # this is because it suffers less from the vanishing-gradient problem
 
+# GRU (Gated Recurrent Unit) works the same as LSTM but it is cheaper to run
+# ideal for big datasets
+# downside is having less representational power compared with LSTM
+

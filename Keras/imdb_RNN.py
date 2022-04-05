@@ -52,6 +52,9 @@ plt.title('Training and validation loss')
 plt.legend()
 plt.show()
 
-
+# accuracy of 83% which is worse than the fully connected layer in
+# imdb_classification.py
+# the reason is because the simpleRNN is not good at processing long sequences
+# and the RNN is only considering the first 500 words
 
 

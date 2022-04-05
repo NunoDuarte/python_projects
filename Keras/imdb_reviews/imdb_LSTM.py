@@ -55,5 +55,5 @@ plt.show()
 
 # The same network replacing the simpleRNN with a LSTM reaches
 # 88% accuracy - an improvement
-
+# this is because it suffers less from the vanishing-gradient problem
 

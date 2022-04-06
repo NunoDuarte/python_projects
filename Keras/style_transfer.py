@@ -1,19 +1,22 @@
 import numpy as np
 import tensorflow as tf
 import keras
+import sys
 from keras.applications import vgg19
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 
-base_image_path = 'test_reference.jpeg'
+print("Provide reference image:")
+
+# Get user's name
+name = input("Please enter Reference image: ")
+while len(name) == 0 :
+    print("illegal name - Please use only letters")
+    name = input("Please enter Reference image: ")
+
+base_image_path = name #'test_reference.jpeg'
 style_reference_image_path = 'test_style.jpeg'
 result_prefix = 'test_generated'
-
-#base_image_path = keras.utils.get_file("paris.jpg", "https://i.imgur.com/F28w3Ac.jpg")
-#style_reference_image_path = keras.utils.get_file(
-#    "starry_night.jpg", "https://i.imgur.com/9ooB60I.jpg"
-#)
-#result_prefix = "paris_generated"
 
 # Weights of the different loss components
 total_variation_weight = 1e-6

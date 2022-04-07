@@ -172,5 +172,20 @@ def plot_compare(images):
 
 plot_compare(example_images)
 
+# Generating new faces from random vectors sampled from a standard normal distribution
 
+def vae_generate_images(n_to_show=10):
+  reconst_images = vae_decoder.predict(np.random.normal(0,1,size=(n_to_show,Z_DIM)))
+
+  fig = plt.figure(figsize=(15, 3))
+  fig.subplots_adjust(hspace=0.4, wspace=0.4)
+
+  for i in range(n_to_show):
+        img = reconst_images[i].squeeze()
+        sub = fig.add_subplot(2, n_to_show, i+1)
+        sub.axis('off')
+        sub.imshow(img)
+  plt.show()
+
+vae_generate_images(n_to_show=10)
 

@@ -9,6 +9,12 @@ from keras.optimizers import Adam
 from keras.callbacks import ModelCheckpoint 
 from keras.utils import plot_model
 from keras import models
+import tensorflow as tf 
+
+# Trying to train network on Multi-GPU system
+strategy = tf.distribute.MirroredStrategy()
+print("Number of devices: {}".format(strategy.num_replicas_in_sync))
+input()
 
 WEIGHTS_FOLDER = './weights/'
 DATA_FOLDER = '/home/nuno/datasets/celeba/img_align_celeba/'
@@ -91,6 +97,8 @@ def build_decoder(input_dim, shape_before_flattening, conv_filters, conv_kernel_
 
 decoder_input, decoder_output, decoder = build_decoder(input_dim = Z_DIM, shape_before_flattening = shape_before_flattening, conv_filters = [64,64,32,3], conv_kernel_size = [3,3,3,3], conv_strides = [2,2,2,2] )
 
+def r_loss(y_true, y_pred):
+    return K.mean(K.square(y_true - y_pred), axis = [1,2,3])
 
 simple_autoencoder_input = encoder_input
 simple_autoencoder_output = decoder(encoder_output)
@@ -102,9 +110,6 @@ LEARNING_RATE = 0.0005
 N_EPOCHS = 10
 
 optimizer = Adam(lr = LEARNING_RATE)
-
-def r_loss(y_true, y_pred):
-    return K.mean(K.square(y_true - y_pred), axis = [1,2,3])
 
 simple_autoencoder.compile(optimizer=optimizer, loss = r_loss)
 

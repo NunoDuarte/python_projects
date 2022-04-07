@@ -14,7 +14,6 @@ import tensorflow as tf
 # Trying to train network on Multi-GPU system
 strategy = tf.distribute.MirroredStrategy()
 print("Number of devices: {}".format(strategy.num_replicas_in_sync))
-input()
 
 WEIGHTS_FOLDER = './weights/'
 DATA_FOLDER = '/home/nuno/datasets/celeba/img_align_celeba/'
@@ -132,12 +131,7 @@ example_batch = next(data_flow)
 example_batch = example_batch[0]
 example_images = example_batch[:10]
 
-def plot_compare(images=None, add_noise=False):
-
-  if images is None:
-    example_batch = next(data_flow)
-    example_batch = example_batch[0]
-    images = example_batch[:10]
+def plot_compare(images, add_noise=False):
 
   n_to_show = images.shape[0]
 

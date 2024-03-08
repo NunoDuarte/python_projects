@@ -2,8 +2,6 @@
 
 - **Data Analysis**
   - Tutorial on data analysis using python, Panda library and so forth
-- **Monte Carlo Simulation**
-  - Examples of Monte Carlo Algorithms
 - **SAT Algorithms**
   - Examples of boolean satisfiability (SAT) Algorithms: Davis–Putnam–Logemann–Loveland (DPLL) algorithm, walk SAT, greedy SAT.
 - **Search Algorithms**

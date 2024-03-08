@@ -1,7 +1,5 @@
 ###  A Collection of Diversified Python Projects 
 
-- **Bayesian Network Algorithms**
-  - Examples on Bayesian Network Algorithms
 - **Data Analysis**
   - Tutorial on data analysis using python, Panda library and so forth
 - **Kaggle:**

@@ -12,7 +12,5 @@
   - Project Face Detection from OpenCV
 - **Keras Programming**
   - Projects on Keras that I'm applying to learn to use it
-- **Pupil Labs Ubuntu**
-  - A bunch of old code (even from MATLAB) that I don't use or don't know what is for
 - **PyGame Project**
   - Project of PyGame to learn how to do a game using python

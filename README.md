@@ -2,12 +2,6 @@
 
 - **Data Analysis**
   - Tutorial on data analysis using python, Panda library and so forth
-- **Kaggle:**
-  Kaggle projects to learn how to train Neural Networks
-  - **Cats vs Dogs**
-    - Classify and distinguish between cats and dogs
-  - **Lung Cancer**
-    - Classify and identify cancer in lungs of patients
 - **Monte Carlo Simulation**
   - Examples of Monte Carlo Algorithms
 - **SAT Algorithms**

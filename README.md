@@ -14,7 +14,7 @@
   - Project of PyGame to learn how to do a game using python
 
 
-# ISR/Vislab servers - including IST server as well
+# IST and ISR/Vislab servers
 ## connect to IST server
 ```
 ssh -i Downloads/Nuno.pem -4 ubuntu@nuno.gpccu.tp.vps.tecnico.ulisboa.pt

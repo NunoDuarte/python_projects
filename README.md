@@ -1,4 +1,4 @@
-###  A Collection of Python Projects 
+#  A Collection of Python Projects 
 
 - **Data Analysis**
   - Tutorial on data analysis using python, Panda library and so forth
